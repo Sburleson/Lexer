@@ -14,8 +14,8 @@ t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
-t_NUMBER= r'\d+'
+##t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+##t_NUMBER= r'\d+'
 t_AND=r'\&'
 t_OR=r'\|'
 t_SORT= r'\>'
@@ -28,8 +28,12 @@ t_SCOLN=r'\;'
 
 
 def t_NUMBER(t):
-    r'\+'
+    r'\d+'
     t.value = int(t.value)
+    return t
+
+def t_NAME(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
     return t
 
 def t_error(t):
@@ -38,3 +42,16 @@ def t_error(t):
 
 lexer = lex()
 
+
+data = "3 + 4"
+
+# Give the lexer some input
+lexer.input(data)
+
+# Tokenize the input
+while True:
+    tok = lexer.token()
+    if not tok:
+        break  # No more input
+    print(tok)
+    
