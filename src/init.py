@@ -25,10 +25,10 @@ t_COM=r'\,'
 t_QUOTE=r'\"|\''
 t_PERIOD=r'\.'
 t_SCOLN=r'\;'
-t_COMPEQU=r'\='
+t_COMPEQU=r'\=='
 t_LES=r'\<'
 t_MOD=r'\%'
-t_SORT=r'\>'
+t_SORT=r'\>>'
 
 
 def t_error(t):
