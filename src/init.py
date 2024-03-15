@@ -36,6 +36,9 @@ t_FOR=r'\FOR'
 t_WHILE=r'\WHILE'
 T_IF=r'\IF'
 T_ELSE=r'\ELSE'
+T_RETURN=r'RETURN'
+T_SLEEP=r'SLEEP'
+T_VAR=r'VAR'
 
 
 def t_error(t):
