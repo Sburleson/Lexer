@@ -58,7 +58,7 @@ while True:
     print(tok)
 
 
-    
+
 ### define the grammar
 def t_NUMBER(t):
     r'\d+'
@@ -137,6 +137,31 @@ def p_factor_grouped(p):
     factor : LPAREN expression RPAREN
     '''
     p[0] = ('grouped', p[2])
+
+def p_statement_for(p):
+    '''
+    statement : FOR LPAREN expression SCOLN expression SCOLN expression RPAREN expression
+    '''
+    p[0] = ('for_loop', p[3], p[5], p[7], p[9])
+
+def p_statement_while(p):
+    '''
+    statement : WHILE LPAREN expression RPAREN expression
+    '''
+    p[0] = ('while_loop', p[3], p[5])
+
+def p_statement_if(p):
+    '''
+    statement : IF LPAREN expression RPAREN expression
+    '''
+    p[0] = ('if_statement', p[3], p[5])
+
+def p_statement_if_else(p):
+    '''
+    statement : IF LPAREN expression RPAREN expression ELSE expression
+    '''
+    p[0] = ('if_else_statement', p[3], p[5], p[7])
+
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
