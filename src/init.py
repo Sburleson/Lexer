@@ -39,6 +39,8 @@ T_ELSE=r'\ELSE'
 T_RETURN=r'RETURN'
 T_SLEEP=r'SLEEP'
 T_VAR=r'VAR'
+T_TRY=r'TRY'
+T_CATCH=r'CATCH'
 
 
 def t_error(t):
