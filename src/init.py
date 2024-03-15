@@ -167,9 +167,18 @@ def p_statement_if_else(p):
     '''
     p[0] = ('if_else_statement', p[3], p[5], p[7])
 
+def p_statement_assignment(p):
+    '''
+    statement : NAME EQUAL expression
+    '''
+    p[0] = ('assignment', p[1], p[3])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
+
+def t_COMMENT(t):
+    r'\//.*'
+    pass
 
 # Build the parser
 parser = yacc()
