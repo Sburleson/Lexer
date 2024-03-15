@@ -41,6 +41,7 @@ T_SLEEP=r'SLEEP'
 T_VAR=r'VAR'
 T_TRY=r'TRY'
 T_CATCH=r'CATCH'
+T_COMMENT=r'//'
 
 
 def t_error(t):
