@@ -30,6 +30,13 @@ t_LES=r'\<'
 t_MOD=r'\%'
 t_SORT=r'\>>'
 
+## keywords
+
+t_FOR=r'\FOR'
+t_WHILE=r'\WHILE'
+T_IF=r'\IF'
+T_ELSE=r'\ELSE'
+
 
 def t_error(t):
     print(f'Illegal character {t.value[0]!r}')
