@@ -43,7 +43,6 @@ T_TRY=r'TRY'
 T_CATCH=r'CATCH'
 T_COMMENT=r'//'
 
-
 def t_error(t):
     print(f'Illegal character {t.value[0]!r}')
     t.lexer.skip(1)
