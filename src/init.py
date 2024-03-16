@@ -180,6 +180,12 @@ def t_COMMENT(t):
     r'\//.*'
     pass
 
+def p_expression_brackets(p):
+    '''
+    expression : LBRA expression RBRA
+    '''
+    p[0] = ('brackets', p[2])
+
 # Build the parser
 parser = yacc()
 
