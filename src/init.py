@@ -122,6 +122,28 @@ lexer = lex()
 
 # Write functions for each grammar rule which is
 # specified in the docstring.
+def p_data_type(p):
+    '''
+    data_type : SHELL LPAREN NUMBER MINUS NUMBER RPAREN
+              | SLOW NUMBER
+              | SLIME NUMBER
+              | SPIRAL TRUE_FALSE
+              | SNAIL NAME
+              | ESCARGO NAME
+    '''
+    # Depending on the data type, you can handle the parsed values accordingly
+    if p[1] == 'Shell':
+        p[0] = ('shell', (p[3], p[5]))  # Assuming 'shell' as the data type
+    elif p[1] == 'Slow':
+        p[0] = ('slow', p[2])  # Assuming 'slow' as the data type
+    elif p[1] == 'Slime':
+        p[0] = ('slime', p[2])  # Assuming 'slime' as the data type
+    elif p[1] == 'Spiral':
+        p[0] = ('spiral', p[2])  # Assuming 'spiral' as the data type
+    elif p[1] == 'Snail':
+        p[0] = ('snail', p[2])  # Assuming 'snail' as the data type
+    elif p[1] == 'Escargo':
+        p[0] = ('escargo', p[2])  # Assuming 'escargo' as the data type
 def p_expression(p):
     '''
     expression : term PLUS term
@@ -281,6 +303,36 @@ def p_statement(p):
     statement : SLEEP
     '''
     # Handle sleep functionality (potentially using external libraries)
+def p_var_declaration(p):
+    '''
+    var_declaration : VAR NAME EQUAL expression
+                    | VAR NAME
+    '''
+    if len(p) == 5:
+        p[0] = ('var_declaration', p[2], p[4])  # If the variable is assigned a value
+    else:
+        p[0] = ('var_declaration', p[2], None)  # If the variable is just declared
+def p_try_catch(p):
+    '''
+    try_catch : TRY statement_list catch_blocks
+    '''
+    p[0] = ('try_catch', p[2], p[3])
+
+def p_catch_blocks(p):
+    '''
+    catch_blocks : catch_block
+                 | catch_block catch_blocks
+    '''
+    if len(p) == 2:
+        p[0] = [p[1]]  # Single catch block
+    else:
+        p[0] = [p[1]] + p[2]  # Multiple catch blocks
+
+def p_catch_block(p):
+    '''
+    catch_block : CATCH LPAREN NAME RPAREN statement_list
+    '''
+    p[0] = ('catch_block', p[3], p[5])
 
 
 # Build the parser
