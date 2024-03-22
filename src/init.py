@@ -186,6 +186,14 @@ def p_expression_brackets(p):
     '''
     p[0] = ('brackets', p[2])
 
+def p_expression_comparison(p):
+  '''
+  expression : term GR8R term
+             | term LES term
+             | term COMPEQU term
+  '''
+  p[0] = ('comparison', p[2], p[1], p[3])
+
 # Build the parser
 parser = yacc()
 
