@@ -4,7 +4,9 @@ from yacc import yacc
 # All tokens must be named in advance.
 tokens = ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER','AND','OR','GR8R','LBRA','RBRA','EQUAL',
-            'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT')
+            'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 'VAR', 
+            'FOR', 'WHILE','IF','ELSE','RETURN','SLEEP','VAR','TRY','CATCH', 
+            'COMMENT','NOT','SHELL', 'SLOW', 'SLIME', 'SPIRAL', 'SNAIL', 'ESCARGO' )
 
 t_ignore = ' \t'
 
@@ -29,9 +31,15 @@ t_COMPEQU=r'\=='
 t_LES=r'\<'
 t_MOD=r'\%'
 t_SORT=r'\>>'
+t_NOT=r'\!'
 
 ## keywords
-
+t_SHELL = r'SHELL'
+t_SLOW = r'SLOW'
+t_SLIME = r'SLIME'
+t_SPIRAL = r'SPIRAL'
+t_SNAIL = r'SNAIL'
+t_ESCARGO = r'ESCARGO'
 t_FOR=r'\FOR'
 t_WHILE=r'\WHILE'
 T_IF=r'\IF'
@@ -62,6 +70,25 @@ while True:
         break  # No more input
     print(tok)
 
+def t_TUPLE(t):
+    r'\(\d{1,2}-\d{1,2}\)'
+    t.value = tuple(map(int, re.findall(r'\d{1,2}', t.value)))
+    return t
+
+def t_4BYTE(t):
+    r'4 byte \d{1,9}'
+    t.value = int(t.value.split()[2])
+    return t
+
+def t_8BYTE(t):
+    r'8 byte \d{1,9}'
+    t.value = int(t.value.split()[2])
+    return t
+
+def t_TRUE_FALSE(t):
+    r'True|False'
+    t.value = True if t.value == 'True' else False
+    return t
 
 
 ### define the grammar
@@ -80,6 +107,14 @@ def t_error(t):
     print(f'Illegal character {t.value[0]!r}')
     t.lexer.skip(1)
 
+def p_bool_expr(p):
+  '''
+  bool_expr : term OR term
+            | term AND term  # You might already have AND defined
+            | NOT term  # Optional: Add NOT operator
+            | bool_expr EQUALS bool_expr  # Add comparison operators if needed
+            | ...  # Add other boolean operators (e.g., XOR)
+  '''
 # Build the lexer object
 lexer = lex()
     
@@ -90,7 +125,7 @@ lexer = lex()
 def p_expression(p):
     '''
     expression : term PLUS term
-               | term MINUS term
+               | term MINUS term 
     '''
     # p is a sequence that represents rule contents.
     #
@@ -98,7 +133,11 @@ def p_expression(p):
     #   p[0]     : p[1] p[2] p[3]
     # 
     p[0] = ('binop', p[2], p[1], p[3])
-
+def p_expression_mod(p):
+    '''
+    expression : term MOD term
+    '''
+    p[0] = ('modulo', p[2], p[1], p[3])
 def p_expression_term(p):
     '''
     expression : term
@@ -187,12 +226,62 @@ def p_expression_brackets(p):
     p[0] = ('brackets', p[2])
 
 def p_expression_comparison(p):
-  '''
-  expression : term GR8R term
+    '''
+    expression : term GR8R term
              | term LES term
              | term COMPEQU term
-  '''
-  p[0] = ('comparison', p[2], p[1], p[3])
+    '''
+    p[0] = ('comparison', p[2], p[1], p[3])
+
+def p_list(p):
+    '''
+    list : LBRA term COM list  # Base case: list starts with term and ends with comma-separated terms
+       | LBRA term RBRA     # Single term list
+    '''
+    if len(p) == 4:  # List with multiple terms
+        p[0] = ('list', p[2], p[4])  # Build AST with first term and remaining list
+    else:
+        p[0] = ('list', p[2])  # Single term list
+
+def p_term(p):
+    '''
+    term : NUMBER
+       | NAME
+       | ...  # Other types of terms
+    '''
+def p_string(p):
+    '''
+    string : QUOTE chars QUOTE
+    '''
+    p[0] = ('string', p[2])  # Build AST with the characters inside the quotes
+
+def p_statement(p):
+    '''
+    statement : expression
+            | SEMICOLON  # Empty statement
+    '''
+def p_expression_custom(p):
+    '''
+    expression : list SORT  # Assuming DOUBLE_RIGHT_SHIFT defined for >>
+    '''
+  # Implement custom logic for the >> operator in the context of Bogosort
+    p[0] = ('custom_operator', p[2], p[1], p[3])  # Example AST representation
+def p_statement_return(p):
+    '''
+    statement : RETURN
+    '''
+def p_statement_return(p):
+    '''
+    statement : RETURN expression
+    '''
+    p[0] = ('return', p[2])
+
+def p_statement(p):
+    '''
+    statement : SLEEP
+    '''
+    # Handle sleep functionality (potentially using external libraries)
+
 
 # Build the parser
 parser = yacc()
