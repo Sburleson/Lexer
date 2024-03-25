@@ -101,10 +101,9 @@ def t_ignore_newline(t):
 def p_bool_expr(p):
   '''
   bool_expr : term OR term
-            | term AND term  # You might already have AND defined
-            | NOT term  # Optional: Add NOT operator
-            | bool_expr EQUALS bool_expr  # Add comparison operators if needed
-            | ...  # Add other boolean operators (e.g., XOR)
+            | term AND term  
+            | NOT term  
+            | bool_expr EQUAL bool_expr
   '''
 # Build the lexer object
 lexer = lex()
@@ -248,20 +247,15 @@ def p_expression_comparison(p):
 
 def p_list(p):
     '''
-    list : LBRA term COM list  # Base case: list starts with term and ends with comma-separated terms
-       | LBRA term RBRA     # Single term list
+    list : LBRA term COM list 
+       | LBRA term RBRA     
     '''
     if len(p) == 4:  # List with multiple terms
         p[0] = ('list', p[2], p[4])  # Build AST with first term and remaining list
     else:
         p[0] = ('list', p[2])  # Single term list
 
-def p_term(p):
-    '''
-    term : NUMBER
-       | NAME
-       | ...  # Other types of terms
-    '''
+
 def p_string(p):
     '''
     string : QUOTE chars QUOTE
@@ -275,14 +269,11 @@ def p_statement(p):
     '''
 def p_expression_custom(p):
     '''
-    expression : list SORT  # Assuming DOUBLE_RIGHT_SHIFT defined for >>
+    expression : list SORT  
     '''
   # Implement custom logic for the >> operator in the context of Bogosort
     p[0] = ('custom_operator', p[2], p[1], p[3])  # Example AST representation
-def p_statement_return(p):
-    '''
-    statement : RETURN
-    '''
+
 def p_statement_return(p):
     '''
     statement : RETURN expression
@@ -305,7 +296,7 @@ def p_var_declaration(p):
         p[0] = ('var_declaration', p[2], None)  # If the variable is just declared
 def p_try_catch(p):
     '''
-    try_catch : TRY statement_list catch_blocks
+    try_catch : TRY list catch_blocks
     '''
     p[0] = ('try_catch', p[2], p[3])
 
@@ -321,7 +312,7 @@ def p_catch_blocks(p):
 
 def p_catch_block(p):
     '''
-    catch_block : CATCH LPAREN NAME RPAREN statement_list
+    catch_block : CATCH LPAREN NAME RPAREN list
     '''
     p[0] = ('catch_block', p[3], p[5])
 
