@@ -31,6 +31,7 @@ t_LES=r'\<'
 t_MOD=r'\%'
 t_SORT=r'\>>'
 t_NOT=r'\!'
+t_NUMBER = r'\d+'
 
 ## keywords
 t_SHELL = r'SHELL'
@@ -90,11 +91,6 @@ def t_TRUE_FALSE(t):
     return t
 
 
-### define the grammar
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
 
 # Ignored token with an action associated with it
 def t_ignore_newline(t):
