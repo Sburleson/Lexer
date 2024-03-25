@@ -255,10 +255,9 @@ def p_list(p):
     else:
         p[0] = ('list', p[2])  # Single term list
 
-
 def p_string(p):
     '''
-    string : QUOTE chars QUOTE
+    string : QUOTE NAME QUOTE
     '''
     p[0] = ('string', p[2])  # Build AST with the characters inside the quotes
 
