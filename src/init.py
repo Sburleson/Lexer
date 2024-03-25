@@ -17,7 +17,6 @@ t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
-t_NUMBER= r'\d+'
 t_AND=r'\&'
 t_OR=r'\|'
 t_GR8R= r'\>'
@@ -40,10 +39,10 @@ t_SLIME = r'SLIME'
 t_SPIRAL = r'SPIRAL'
 t_SNAIL = r'SNAIL'
 t_ESCARGO = r'ESCARGO'
-t_FOR=r'\FOR'
-t_WHILE=r'\WHILE'
-T_IF=r'\IF'
-T_ELSE=r'\ELSE'
+t_FOR=r'FOR'
+t_WHILE=r'WHILE'
+T_IF=r'IF'
+T_ELSE=r'ELSE'
 T_RETURN=r'RETURN'
 T_SLEEP=r'SLEEP'
 T_VAR=r'VAR'
@@ -102,10 +101,6 @@ def t_ignore_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count('\n')
 
-# Error handler for illegal characters
-def t_error(t):
-    print(f'Illegal character {t.value[0]!r}')
-    t.lexer.skip(1)
 
 def p_bool_expr(p):
   '''
