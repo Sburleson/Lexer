@@ -18,12 +18,10 @@ keywords = {
     'CATCH': 'CATCH'
 }
 # Define tokens
-tokens = tuple(keywords.values()) + ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
-           'NAME', 'NUMBER','AND','OR','GR8R','LBRA','RBRA','EQUAL',
-            'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 'VAR', 
-            'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 
-            'FOR', 'WHILE','IF','ELSE','RETURN','SLEEP','VAR','TRY','CATCH', 
-            'COMMENT','NOT','SHELL', 'SLOW', 'SLIME', 'SPIRAL', 'SNAIL', 'ESCARGO' )
+tokens =  ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+           'NAME', 'NUMBER','AND','OR','GR8R','LBRA','RBRA','COM', 'QUOTE',
+           'PERIOD','SCOLN','COMPEQU','EQU', 'LES', 'MOD', 'SORT',
+             'NOT', 'VAR') + tuple(keywords.values())
 
 t_PLUS= r'\+'
 t_MINUS = r'-'
@@ -42,14 +40,13 @@ t_QUOTE=r'\"|\''
 t_PERIOD=r'\.'
 t_SCOLN=r'\;'
 t_COMPEQU=r'\=='
+t_EQU=r'\='
 t_LES=r'\<'
 t_MOD=r'\%'
 t_SORT=r'\>>'
 t_NOT=r'\!'
-T_COMMENT=r'//'
 t_VAR = r'[\w]+'
 
-keyword_tokens = {v: v for v in keywords.values()}
 
 
 # Ignored characters
@@ -116,12 +113,12 @@ def p_statement(p):
     p[0] = p[1]
 
 def p_assignment(p):
-    'assignment : VAR VAR EQUAL expression'
+    'assignment : VAR EQU expression'
     p[0] = ('assignment', p[2], p[4])
 
 def p_var_declaration(p):
-    '''var_declaration : VAR VAR EQUAL expression
-                       | VAR VAR'''
+    '''var_declaration : VAR  EQU expression
+                       | VAR '''
     if len(p) == 5:
         symbol_table[p[2]] = p[4]
     p[0] = ('var_declaration', p[2], p[4] if len(p) == 5 else None)

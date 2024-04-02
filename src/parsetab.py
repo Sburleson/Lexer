@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND CATCH CATCH COM COM COMMENT COMPEQU COMPEQU DIVIDE ELSE ELSE EQUAL ESCARGO ESCARGO FOR FOR GR8R IF IF LBRA LES LES LPAREN MINUS MOD MOD NAME NOT NUMBER OR PERIOD PERIOD PLUS QUOTE QUOTE RBRA RETURN RETURN RPAREN SCOLN SCOLN SHELL SHELL SLEEP SLEEP SLIME SLIME SLOW SLOW SNAIL SNAIL SORT SORT SPIRAL SPIRAL TIMES TRY TRY VAR VAR VAR WHILE WHILEstatement : assignment\n                 | var_declaration\n                 | if_statement\n                 | while_loop\n                 | for_loop\n                 | return_statement\n                 | sleep_statement\n                 | try_catch_statementassignment : VAR VAR EQUAL expressionvar_declaration : VAR VAR EQUAL expression\n                       | VAR VARif_statement : IF LPAREN expression RPAREN statement\n                    | IF LPAREN expression RPAREN statement ELSE statementwhile_loop : WHILE LPAREN expression RPAREN statementfor_loop : FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statementreturn_statement : RETURN expressionsleep_statement : SLEEP expressiontry_catch_statement : TRY statement catch_blockscatch_blocks : catch_block\n                    | catch_block catch_blockscatch_block : CATCH LPAREN VAR RPAREN statementexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expression\n                  | expression COMPEQU expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : VAR'
+_lr_signature = 'AND CATCH COM COMPEQU DIVIDE ELSE EQU ESCARGO FOR GR8R IF LBRA LES LPAREN MINUS MOD NAME NOT NUMBER OR PERIOD PLUS QUOTE RBRA RETURN RPAREN SCOLN SHELL SLEEP SLIME SLOW SNAIL SORT SPIRAL TIMES TRY VAR VAR WHILEstatement : assignment\n                 | var_declaration\n                 | if_statement\n                 | while_loop\n                 | for_loop\n                 | return_statement\n                 | sleep_statement\n                 | try_catch_statementassignment : VAR EQU expressionvar_declaration : VAR  EQU expression\n                       | VAR if_statement : IF LPAREN expression RPAREN statement\n                    | IF LPAREN expression RPAREN statement ELSE statementwhile_loop : WHILE LPAREN expression RPAREN statementfor_loop : FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statementreturn_statement : RETURN expressionsleep_statement : SLEEP expressiontry_catch_statement : TRY statement catch_blockscatch_blocks : catch_block\n                    | catch_block catch_blockscatch_block : CATCH LPAREN VAR RPAREN statementexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expression\n                  | expression COMPEQU expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : VAR'
     
-_lr_action_items = {'VAR':([0,10,14,15,16,18,19,20,22,27,31,32,33,34,35,41,42,43,51,56,57,58,62,],[10,17,24,24,10,24,24,24,24,24,24,24,24,24,24,10,10,24,55,10,24,10,10,]),'IF':([0,16,41,42,56,58,62,],[11,11,11,11,11,11,11,]),'WHILE':([0,16,41,42,56,58,62,],[12,12,12,12,12,12,12,]),'FOR':([0,16,41,42,56,58,62,],[13,13,13,13,13,13,13,]),'RETURN':([0,16,41,42,56,58,62,],[14,14,14,14,14,14,14,]),'SLEEP':([0,16,41,42,56,58,62,],[15,15,15,15,15,15,15,]),'TRY':([0,16,41,42,56,58,62,],[16,16,16,16,16,16,16,]),'$end':([1,2,3,4,5,6,7,8,9,17,21,23,24,25,37,38,40,44,45,46,47,48,49,50,52,53,59,61,63,],[0,-1,-2,-3,-4,-5,-6,-7,-8,-11,-16,-28,-29,-17,-18,-19,-9,-22,-23,-24,-25,-26,-27,-20,-12,-14,-13,-21,-15,]),'CATCH':([2,3,4,5,6,7,8,9,17,21,23,24,25,26,37,38,40,44,45,46,47,48,49,50,52,53,59,61,63,],[-1,-2,-3,-4,-5,-6,-7,-8,-11,-16,-28,-29,-17,39,-18,39,-9,-22,-23,-24,-25,-26,-27,-20,-12,-14,-13,-21,-15,]),'ELSE':([2,3,4,5,6,7,8,9,17,21,23,24,25,37,38,40,44,45,46,47,48,49,50,52,53,59,61,63,],[-1,-2,-3,-4,-5,-6,-7,-8,-11,-16,-28,-29,-17,-18,-19,-9,-22,-23,-24,-25,-26,-27,-20,56,-14,-13,-21,-15,]),'LPAREN':([11,12,13,14,15,18,19,20,22,27,31,32,33,34,35,39,43,57,],[18,19,20,22,22,22,22,22,22,22,22,22,22,22,22,51,22,22,]),'NUMBER':([14,15,18,19,20,22,27,31,32,33,34,35,43,57,],[23,23,23,23,23,23,23,23,23,23,23,23,23,23,]),'EQUAL':([17,],[27,]),'PLUS':([21,23,24,25,28,29,30,36,40,44,45,46,47,48,49,54,60,],[31,-28,-29,31,31,31,31,31,31,31,31,31,31,31,-27,31,31,]),'MINUS':([21,23,24,25,28,29,30,36,40,44,45,46,47,48,49,54,60,],[32,-28,-29,32,32,32,32,32,32,32,32,32,32,32,-27,32,32,]),'TIMES':([21,23,24,25,28,29,30,36,40,44,45,46,47,48,49,54,60,],[33,-28,-29,33,33,33,33,33,33,33,33,33,33,33,-27,33,33,]),'DIVIDE':([21,23,24,25,28,29,30,36,40,44,45,46,47,48,49,54,60,],[34,-28,-29,34,34,34,34,34,34,34,34,34,34,34,-27,34,34,]),'COMPEQU':([21,23,24,25,28,29,30,36,40,44,45,46,47,48,49,54,60,],[35,-28,-29,35,35,35,35,35,35,35,35,35,35,35,-27,35,35,]),'RPAREN':([23,24,28,29,36,44,45,46,47,48,49,55,60,],[-28,-29,41,42,49,-22,-23,-24,-25,-26,-27,58,62,]),'SCOLN':([23,24,30,44,45,46,47,48,49,54,],[-28,-29,43,-22,-23,-24,-25,-26,-27,57,]),}
+_lr_action_items = {'VAR':([0,14,15,16,17,18,19,20,22,31,32,33,34,35,40,41,42,50,55,56,57,61,],[10,24,24,10,24,24,24,24,24,24,24,24,24,24,10,10,24,54,10,24,10,10,]),'IF':([0,16,40,41,55,57,61,],[11,11,11,11,11,11,11,]),'WHILE':([0,16,40,41,55,57,61,],[12,12,12,12,12,12,12,]),'FOR':([0,16,40,41,55,57,61,],[13,13,13,13,13,13,13,]),'RETURN':([0,16,40,41,55,57,61,],[14,14,14,14,14,14,14,]),'SLEEP':([0,16,40,41,55,57,61,],[15,15,15,15,15,15,15,]),'TRY':([0,16,40,41,55,57,61,],[16,16,16,16,16,16,16,]),'$end':([1,2,3,4,5,6,7,8,9,10,21,23,24,25,27,37,38,43,44,45,46,47,48,49,51,52,58,60,62,],[0,-1,-2,-3,-4,-5,-6,-7,-8,-11,-16,-28,-29,-17,-9,-18,-19,-22,-23,-24,-25,-26,-27,-20,-12,-14,-13,-21,-15,]),'CATCH':([2,3,4,5,6,7,8,9,10,21,23,24,25,26,27,37,38,43,44,45,46,47,48,49,51,52,58,60,62,],[-1,-2,-3,-4,-5,-6,-7,-8,-11,-16,-28,-29,-17,39,-9,-18,39,-22,-23,-24,-25,-26,-27,-20,-12,-14,-13,-21,-15,]),'ELSE':([2,3,4,5,6,7,8,9,10,21,23,24,25,27,37,38,43,44,45,46,47,48,49,51,52,58,60,62,],[-1,-2,-3,-4,-5,-6,-7,-8,-11,-16,-28,-29,-17,-9,-18,-19,-22,-23,-24,-25,-26,-27,-20,55,-14,-13,-21,-15,]),'EQU':([10,],[17,]),'LPAREN':([11,12,13,14,15,17,18,19,20,22,31,32,33,34,35,39,42,56,],[18,19,20,22,22,22,22,22,22,22,22,22,22,22,22,50,22,22,]),'NUMBER':([14,15,17,18,19,20,22,31,32,33,34,35,42,56,],[23,23,23,23,23,23,23,23,23,23,23,23,23,23,]),'PLUS':([21,23,24,25,27,28,29,30,36,43,44,45,46,47,48,53,59,],[31,-28,-29,31,31,31,31,31,31,31,31,31,31,31,-27,31,31,]),'MINUS':([21,23,24,25,27,28,29,30,36,43,44,45,46,47,48,53,59,],[32,-28,-29,32,32,32,32,32,32,32,32,32,32,32,-27,32,32,]),'TIMES':([21,23,24,25,27,28,29,30,36,43,44,45,46,47,48,53,59,],[33,-28,-29,33,33,33,33,33,33,33,33,33,33,33,-27,33,33,]),'DIVIDE':([21,23,24,25,27,28,29,30,36,43,44,45,46,47,48,53,59,],[34,-28,-29,34,34,34,34,34,34,34,34,34,34,34,-27,34,34,]),'COMPEQU':([21,23,24,25,27,28,29,30,36,43,44,45,46,47,48,53,59,],[35,-28,-29,35,35,35,35,35,35,35,35,35,35,35,-27,35,35,]),'RPAREN':([23,24,28,29,36,43,44,45,46,47,48,54,59,],[-28,-29,40,41,48,-22,-23,-24,-25,-26,-27,57,61,]),'SCOLN':([23,24,30,43,44,45,46,47,48,53,],[-28,-29,42,-22,-23,-24,-25,-26,-27,56,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,16,41,42,56,58,62,],[1,26,52,53,59,61,63,]),'assignment':([0,16,41,42,56,58,62,],[2,2,2,2,2,2,2,]),'var_declaration':([0,16,41,42,56,58,62,],[3,3,3,3,3,3,3,]),'if_statement':([0,16,41,42,56,58,62,],[4,4,4,4,4,4,4,]),'while_loop':([0,16,41,42,56,58,62,],[5,5,5,5,5,5,5,]),'for_loop':([0,16,41,42,56,58,62,],[6,6,6,6,6,6,6,]),'return_statement':([0,16,41,42,56,58,62,],[7,7,7,7,7,7,7,]),'sleep_statement':([0,16,41,42,56,58,62,],[8,8,8,8,8,8,8,]),'try_catch_statement':([0,16,41,42,56,58,62,],[9,9,9,9,9,9,9,]),'expression':([14,15,18,19,20,22,27,31,32,33,34,35,43,57,],[21,25,28,29,30,36,40,44,45,46,47,48,54,60,]),'catch_blocks':([26,38,],[37,50,]),'catch_block':([26,38,],[38,38,]),}
+_lr_goto_items = {'statement':([0,16,40,41,55,57,61,],[1,26,51,52,58,60,62,]),'assignment':([0,16,40,41,55,57,61,],[2,2,2,2,2,2,2,]),'var_declaration':([0,16,40,41,55,57,61,],[3,3,3,3,3,3,3,]),'if_statement':([0,16,40,41,55,57,61,],[4,4,4,4,4,4,4,]),'while_loop':([0,16,40,41,55,57,61,],[5,5,5,5,5,5,5,]),'for_loop':([0,16,40,41,55,57,61,],[6,6,6,6,6,6,6,]),'return_statement':([0,16,40,41,55,57,61,],[7,7,7,7,7,7,7,]),'sleep_statement':([0,16,40,41,55,57,61,],[8,8,8,8,8,8,8,]),'try_catch_statement':([0,16,40,41,55,57,61,],[9,9,9,9,9,9,9,]),'expression':([14,15,17,18,19,20,22,31,32,33,34,35,42,56,],[21,25,27,28,29,30,36,43,44,45,46,47,53,59,]),'catch_blocks':([26,38,],[37,49,]),'catch_block':([26,38,],[38,38,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,33 +27,33 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> assignment','statement',1,'p_statement','init.py',108),
-  ('statement -> var_declaration','statement',1,'p_statement','init.py',109),
-  ('statement -> if_statement','statement',1,'p_statement','init.py',110),
-  ('statement -> while_loop','statement',1,'p_statement','init.py',111),
-  ('statement -> for_loop','statement',1,'p_statement','init.py',112),
-  ('statement -> return_statement','statement',1,'p_statement','init.py',113),
-  ('statement -> sleep_statement','statement',1,'p_statement','init.py',114),
-  ('statement -> try_catch_statement','statement',1,'p_statement','init.py',115),
-  ('assignment -> VAR VAR EQUAL expression','assignment',4,'p_assignment','init.py',119),
-  ('var_declaration -> VAR VAR EQUAL expression','var_declaration',4,'p_var_declaration','init.py',123),
-  ('var_declaration -> VAR VAR','var_declaration',2,'p_var_declaration','init.py',124),
-  ('if_statement -> IF LPAREN expression RPAREN statement','if_statement',5,'p_if_statement','init.py',130),
-  ('if_statement -> IF LPAREN expression RPAREN statement ELSE statement','if_statement',7,'p_if_statement','init.py',131),
-  ('while_loop -> WHILE LPAREN expression RPAREN statement','while_loop',5,'p_while_loop','init.py',139),
-  ('for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement','for_loop',9,'p_for_loop','init.py',144),
-  ('return_statement -> RETURN expression','return_statement',2,'p_return_statement','init.py',149),
-  ('sleep_statement -> SLEEP expression','sleep_statement',2,'p_sleep_statement','init.py',153),
-  ('try_catch_statement -> TRY statement catch_blocks','try_catch_statement',3,'p_try_catch_statement','init.py',157),
-  ('catch_blocks -> catch_block','catch_blocks',1,'p_catch_blocks','init.py',161),
-  ('catch_blocks -> catch_block catch_blocks','catch_blocks',2,'p_catch_blocks','init.py',162),
-  ('catch_block -> CATCH LPAREN VAR RPAREN statement','catch_block',5,'p_catch_block','init.py',166),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','init.py',170),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','init.py',171),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','init.py',172),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','init.py',173),
-  ('expression -> expression COMPEQU expression','expression',3,'p_expression_binop','init.py',174),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','init.py',178),
-  ('expression -> NUMBER','expression',1,'p_expression_number','init.py',182),
-  ('expression -> VAR','expression',1,'p_expression_var','init.py',186),
+  ('statement -> assignment','statement',1,'p_statement','init.py',105),
+  ('statement -> var_declaration','statement',1,'p_statement','init.py',106),
+  ('statement -> if_statement','statement',1,'p_statement','init.py',107),
+  ('statement -> while_loop','statement',1,'p_statement','init.py',108),
+  ('statement -> for_loop','statement',1,'p_statement','init.py',109),
+  ('statement -> return_statement','statement',1,'p_statement','init.py',110),
+  ('statement -> sleep_statement','statement',1,'p_statement','init.py',111),
+  ('statement -> try_catch_statement','statement',1,'p_statement','init.py',112),
+  ('assignment -> VAR EQU expression','assignment',3,'p_assignment','init.py',116),
+  ('var_declaration -> VAR EQU expression','var_declaration',3,'p_var_declaration','init.py',120),
+  ('var_declaration -> VAR','var_declaration',1,'p_var_declaration','init.py',121),
+  ('if_statement -> IF LPAREN expression RPAREN statement','if_statement',5,'p_if_statement','init.py',127),
+  ('if_statement -> IF LPAREN expression RPAREN statement ELSE statement','if_statement',7,'p_if_statement','init.py',128),
+  ('while_loop -> WHILE LPAREN expression RPAREN statement','while_loop',5,'p_while_loop','init.py',136),
+  ('for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement','for_loop',9,'p_for_loop','init.py',141),
+  ('return_statement -> RETURN expression','return_statement',2,'p_return_statement','init.py',146),
+  ('sleep_statement -> SLEEP expression','sleep_statement',2,'p_sleep_statement','init.py',150),
+  ('try_catch_statement -> TRY statement catch_blocks','try_catch_statement',3,'p_try_catch_statement','init.py',154),
+  ('catch_blocks -> catch_block','catch_blocks',1,'p_catch_blocks','init.py',158),
+  ('catch_blocks -> catch_block catch_blocks','catch_blocks',2,'p_catch_blocks','init.py',159),
+  ('catch_block -> CATCH LPAREN VAR RPAREN statement','catch_block',5,'p_catch_block','init.py',163),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','init.py',167),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','init.py',168),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','init.py',169),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','init.py',170),
+  ('expression -> expression COMPEQU expression','expression',3,'p_expression_binop','init.py',171),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','init.py',175),
+  ('expression -> NUMBER','expression',1,'p_expression_number','init.py',179),
+  ('expression -> VAR','expression',1,'p_expression_var','init.py',183),
 ]
