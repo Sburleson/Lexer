@@ -1,8 +1,24 @@
 from ply import lex
 from ply import yacc
-
+keywords = {
+    'SHELL': 'SHELL',
+    'SLOW': 'SLOW',
+    'SLIME': 'SLIME',
+    'SPIRAL': 'SPIRAL',
+    'SNAIL': 'SNAIL',
+    'ESCARGO': 'ESCARGO',
+    'FOR': 'FOR',
+    'WHILE': 'WHILE',
+    'IF': 'IF',
+    'ELSE': 'ELSE',
+    'RETURN': 'RETURN',
+    'SLEEP': 'SLEEP',
+    'VAR': 'VAR',
+    'TRY': 'TRY',
+    'CATCH': 'CATCH'
+}
 # Define tokens
-tokens = ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+tokens = tuple(keywords.values()) +( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER','AND','OR','GR8R','LBRA','RBRA','EQUAL',
             'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 'VAR', 
             'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 
