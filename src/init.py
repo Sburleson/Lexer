@@ -18,14 +18,13 @@ keywords = {
     'CATCH': 'CATCH'
 }
 # Define tokens
-tokens = tuple(keywords.values()) +( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+tokens = tuple(keywords.values()) + ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER','AND','OR','GR8R','LBRA','RBRA','EQUAL',
             'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 'VAR', 
             'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 
             'FOR', 'WHILE','IF','ELSE','RETURN','SLEEP','VAR','TRY','CATCH', 
             'COMMENT','NOT','SHELL', 'SLOW', 'SLIME', 'SPIRAL', 'SNAIL', 'ESCARGO' )
 
-t_ignore = ' \t'
 t_PLUS= r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'

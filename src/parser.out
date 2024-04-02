@@ -3,7 +3,6 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     AND
-    CHAR
     COM
     COMMENT
     ESCARGO
@@ -11,6 +10,7 @@ Unused terminals:
     LBRA
     LES
     MOD
+    NAME
     NOT
     OR
     PERIOD
@@ -60,7 +60,6 @@ Terminals, with rules where they appear
 
 AND                  : 
 CATCH                : 21
-CHAR                 : 
 COM                  : 
 COMMENT              : 
 COMPEQU              : 26
@@ -76,6 +75,7 @@ LES                  :
 LPAREN               : 12 13 14 15 21 27
 MINUS                : 23
 MOD                  : 
+NAME                 : 
 NOT                  : 
 NUMBER               : 28
 OR                   : 
