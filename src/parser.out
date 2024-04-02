@@ -3,6 +3,7 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     AND
+    CHAR
     COM
     COMMENT
     ESCARGO
@@ -25,149 +26,135 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> statement
-Rule 1     statement -> expression
-Rule 2     statement -> assignment
-Rule 3     statement -> var_declaration
-Rule 4     statement -> if_statement
-Rule 5     statement -> while_loop
-Rule 6     statement -> for_loop
-Rule 7     statement -> return_statement
-Rule 8     statement -> sleep_statement
-Rule 9     statement -> try_catch_statement
-Rule 10    expression -> expression PLUS expression
-Rule 11    expression -> expression MINUS expression
-Rule 12    expression -> expression TIMES expression
-Rule 13    expression -> expression DIVIDE expression
-Rule 14    expression -> expression COMPEQU expression
-Rule 15    expression -> LPAREN expression RPAREN
-Rule 16    expression -> NUMBER
-Rule 17    expression -> NAME
-Rule 18    assignment -> VAR NAME EQUAL expression
-Rule 19    var_declaration -> VAR NAME EQUAL expression
-Rule 20    var_declaration -> VAR NAME
-Rule 21    if_statement -> IF LPAREN expression RPAREN statement
-Rule 22    if_statement -> IF LPAREN expression RPAREN statement ELSE statement
-Rule 23    while_loop -> WHILE LPAREN expression RPAREN statement
-Rule 24    for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-Rule 25    return_statement -> RETURN expression
-Rule 26    sleep_statement -> SLEEP expression
-Rule 27    try_catch_statement -> TRY statement catch_blocks
-Rule 28    catch_blocks -> catch_block
-Rule 29    catch_blocks -> catch_block catch_blocks
-Rule 30    catch_block -> CATCH LPAREN NAME RPAREN statement
+Rule 1     statement -> assignment
+Rule 2     statement -> var_declaration
+Rule 3     statement -> if_statement
+Rule 4     statement -> while_loop
+Rule 5     statement -> for_loop
+Rule 6     statement -> return_statement
+Rule 7     statement -> sleep_statement
+Rule 8     statement -> try_catch_statement
+Rule 9     assignment -> VAR VAR EQUAL expression
+Rule 10    var_declaration -> VAR VAR EQUAL expression
+Rule 11    var_declaration -> VAR VAR
+Rule 12    if_statement -> IF LPAREN expression RPAREN statement
+Rule 13    if_statement -> IF LPAREN expression RPAREN statement ELSE statement
+Rule 14    while_loop -> WHILE LPAREN expression RPAREN statement
+Rule 15    for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+Rule 16    return_statement -> RETURN expression
+Rule 17    sleep_statement -> SLEEP expression
+Rule 18    try_catch_statement -> TRY statement catch_blocks
+Rule 19    catch_blocks -> catch_block
+Rule 20    catch_blocks -> catch_block catch_blocks
+Rule 21    catch_block -> CATCH LPAREN VAR RPAREN statement
+Rule 22    expression -> expression PLUS expression
+Rule 23    expression -> expression MINUS expression
+Rule 24    expression -> expression TIMES expression
+Rule 25    expression -> expression DIVIDE expression
+Rule 26    expression -> expression COMPEQU expression
+Rule 27    expression -> LPAREN expression RPAREN
+Rule 28    expression -> NUMBER
+Rule 29    expression -> VAR
 
 Terminals, with rules where they appear
 
 AND                  : 
-CATCH                : 30
+CATCH                : 21
+CHAR                 : 
 COM                  : 
 COMMENT              : 
-COMPEQU              : 14
-DIVIDE               : 13
-ELSE                 : 22
-EQUAL                : 18 19
+COMPEQU              : 26
+DIVIDE               : 25
+ELSE                 : 13
+EQUAL                : 9 10
 ESCARGO              : 
-FOR                  : 24
+FOR                  : 15
 GR8R                 : 
-IF                   : 21 22
+IF                   : 12 13
 LBRA                 : 
 LES                  : 
-LPAREN               : 15 21 22 23 24 30
-MINUS                : 11
+LPAREN               : 12 13 14 15 21 27
+MINUS                : 23
 MOD                  : 
-NAME                 : 17 18 19 20 30
 NOT                  : 
-NUMBER               : 16
+NUMBER               : 28
 OR                   : 
 PERIOD               : 
-PLUS                 : 10
+PLUS                 : 22
 QUOTE                : 
 RBRA                 : 
-RETURN               : 25
-RPAREN               : 15 21 22 23 24 30
-SCOLN                : 24 24
+RETURN               : 16
+RPAREN               : 12 13 14 15 21 27
+SCOLN                : 15 15
 SHELL                : 
-SLEEP                : 26
+SLEEP                : 17
 SLIME                : 
 SLOW                 : 
 SNAIL                : 
 SORT                 : 
 SPIRAL               : 
-TIMES                : 12
-TRY                  : 27
-VAR                  : 18 19 20
-WHILE                : 23
+TIMES                : 24
+TRY                  : 18
+VAR                  : 9 9 10 10 11 11 21 29
+WHILE                : 14
 error                : 
 
 Nonterminals, with rules where they appear
 
-assignment           : 2
-catch_block          : 28 29
-catch_blocks         : 27 29
-expression           : 1 10 10 11 11 12 12 13 13 14 14 15 18 19 21 22 23 24 24 24 25 26
-for_loop             : 6
-if_statement         : 4
-return_statement     : 7
-sleep_statement      : 8
-statement            : 21 22 22 23 24 27 30 0
-try_catch_statement  : 9
-var_declaration      : 3
-while_loop           : 5
+assignment           : 1
+catch_block          : 19 20
+catch_blocks         : 18 20
+expression           : 9 10 12 13 14 15 15 15 16 17 22 22 23 23 24 24 25 25 26 26 27
+for_loop             : 5
+if_statement         : 3
+return_statement     : 6
+sleep_statement      : 7
+statement            : 12 13 13 14 15 18 21 0
+try_catch_statement  : 8
+var_declaration      : 2
+while_loop           : 4
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . statement
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
 
     statement                      shift and go to state 1
-    expression                     shift and go to state 2
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
 
 state 1
 
@@ -177,1194 +164,1137 @@ state 1
 
 state 2
 
-    (1) statement -> expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (1) statement -> assignment .
 
-    $end            reduce using rule 1 (statement -> expression .)
-    CATCH           reduce using rule 1 (statement -> expression .)
-    ELSE            reduce using rule 1 (statement -> expression .)
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    $end            reduce using rule 1 (statement -> assignment .)
+    CATCH           reduce using rule 1 (statement -> assignment .)
+    ELSE            reduce using rule 1 (statement -> assignment .)
 
 
 state 3
 
-    (2) statement -> assignment .
+    (2) statement -> var_declaration .
 
-    $end            reduce using rule 2 (statement -> assignment .)
-    CATCH           reduce using rule 2 (statement -> assignment .)
-    ELSE            reduce using rule 2 (statement -> assignment .)
+    $end            reduce using rule 2 (statement -> var_declaration .)
+    CATCH           reduce using rule 2 (statement -> var_declaration .)
+    ELSE            reduce using rule 2 (statement -> var_declaration .)
 
 
 state 4
 
-    (3) statement -> var_declaration .
+    (3) statement -> if_statement .
 
-    $end            reduce using rule 3 (statement -> var_declaration .)
-    CATCH           reduce using rule 3 (statement -> var_declaration .)
-    ELSE            reduce using rule 3 (statement -> var_declaration .)
+    $end            reduce using rule 3 (statement -> if_statement .)
+    CATCH           reduce using rule 3 (statement -> if_statement .)
+    ELSE            reduce using rule 3 (statement -> if_statement .)
 
 
 state 5
 
-    (4) statement -> if_statement .
+    (4) statement -> while_loop .
 
-    $end            reduce using rule 4 (statement -> if_statement .)
-    CATCH           reduce using rule 4 (statement -> if_statement .)
-    ELSE            reduce using rule 4 (statement -> if_statement .)
+    $end            reduce using rule 4 (statement -> while_loop .)
+    CATCH           reduce using rule 4 (statement -> while_loop .)
+    ELSE            reduce using rule 4 (statement -> while_loop .)
 
 
 state 6
 
-    (5) statement -> while_loop .
+    (5) statement -> for_loop .
 
-    $end            reduce using rule 5 (statement -> while_loop .)
-    CATCH           reduce using rule 5 (statement -> while_loop .)
-    ELSE            reduce using rule 5 (statement -> while_loop .)
+    $end            reduce using rule 5 (statement -> for_loop .)
+    CATCH           reduce using rule 5 (statement -> for_loop .)
+    ELSE            reduce using rule 5 (statement -> for_loop .)
 
 
 state 7
 
-    (6) statement -> for_loop .
+    (6) statement -> return_statement .
 
-    $end            reduce using rule 6 (statement -> for_loop .)
-    CATCH           reduce using rule 6 (statement -> for_loop .)
-    ELSE            reduce using rule 6 (statement -> for_loop .)
+    $end            reduce using rule 6 (statement -> return_statement .)
+    CATCH           reduce using rule 6 (statement -> return_statement .)
+    ELSE            reduce using rule 6 (statement -> return_statement .)
 
 
 state 8
 
-    (7) statement -> return_statement .
+    (7) statement -> sleep_statement .
 
-    $end            reduce using rule 7 (statement -> return_statement .)
-    CATCH           reduce using rule 7 (statement -> return_statement .)
-    ELSE            reduce using rule 7 (statement -> return_statement .)
+    $end            reduce using rule 7 (statement -> sleep_statement .)
+    CATCH           reduce using rule 7 (statement -> sleep_statement .)
+    ELSE            reduce using rule 7 (statement -> sleep_statement .)
 
 
 state 9
 
-    (8) statement -> sleep_statement .
+    (8) statement -> try_catch_statement .
 
-    $end            reduce using rule 8 (statement -> sleep_statement .)
-    CATCH           reduce using rule 8 (statement -> sleep_statement .)
-    ELSE            reduce using rule 8 (statement -> sleep_statement .)
+    $end            reduce using rule 8 (statement -> try_catch_statement .)
+    CATCH           reduce using rule 8 (statement -> try_catch_statement .)
+    ELSE            reduce using rule 8 (statement -> try_catch_statement .)
 
 
 state 10
 
-    (9) statement -> try_catch_statement .
+    (9) assignment -> VAR . VAR EQUAL expression
+    (10) var_declaration -> VAR . VAR EQUAL expression
+    (11) var_declaration -> VAR . VAR
 
-    $end            reduce using rule 9 (statement -> try_catch_statement .)
-    CATCH           reduce using rule 9 (statement -> try_catch_statement .)
-    ELSE            reduce using rule 9 (statement -> try_catch_statement .)
+    VAR             shift and go to state 17
 
 
 state 11
 
-    (15) expression -> LPAREN . expression RPAREN
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (12) if_statement -> IF . LPAREN expression RPAREN statement
+    (13) if_statement -> IF . LPAREN expression RPAREN statement ELSE statement
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    LPAREN          shift and go to state 18
 
-    expression                     shift and go to state 26
 
 state 12
 
-    (16) expression -> NUMBER .
+    (14) while_loop -> WHILE . LPAREN expression RPAREN statement
 
-    PLUS            reduce using rule 16 (expression -> NUMBER .)
-    MINUS           reduce using rule 16 (expression -> NUMBER .)
-    TIMES           reduce using rule 16 (expression -> NUMBER .)
-    DIVIDE          reduce using rule 16 (expression -> NUMBER .)
-    COMPEQU         reduce using rule 16 (expression -> NUMBER .)
-    $end            reduce using rule 16 (expression -> NUMBER .)
-    RPAREN          reduce using rule 16 (expression -> NUMBER .)
-    CATCH           reduce using rule 16 (expression -> NUMBER .)
-    ELSE            reduce using rule 16 (expression -> NUMBER .)
-    SCOLN           reduce using rule 16 (expression -> NUMBER .)
+    LPAREN          shift and go to state 19
 
 
 state 13
 
-    (17) expression -> NAME .
+    (15) for_loop -> FOR . LPAREN expression SCOLN expression SCOLN expression RPAREN statement
 
-    PLUS            reduce using rule 17 (expression -> NAME .)
-    MINUS           reduce using rule 17 (expression -> NAME .)
-    TIMES           reduce using rule 17 (expression -> NAME .)
-    DIVIDE          reduce using rule 17 (expression -> NAME .)
-    COMPEQU         reduce using rule 17 (expression -> NAME .)
-    $end            reduce using rule 17 (expression -> NAME .)
-    RPAREN          reduce using rule 17 (expression -> NAME .)
-    CATCH           reduce using rule 17 (expression -> NAME .)
-    ELSE            reduce using rule 17 (expression -> NAME .)
-    SCOLN           reduce using rule 17 (expression -> NAME .)
+    LPAREN          shift and go to state 20
 
 
 state 14
 
-    (18) assignment -> VAR . NAME EQUAL expression
-    (19) var_declaration -> VAR . NAME EQUAL expression
-    (20) var_declaration -> VAR . NAME
+    (16) return_statement -> RETURN . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    NAME            shift and go to state 27
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
+    expression                     shift and go to state 21
 
 state 15
 
-    (21) if_statement -> IF . LPAREN expression RPAREN statement
-    (22) if_statement -> IF . LPAREN expression RPAREN statement ELSE statement
+    (17) sleep_statement -> SLEEP . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    LPAREN          shift and go to state 28
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
+    expression                     shift and go to state 25
 
 state 16
 
-    (23) while_loop -> WHILE . LPAREN expression RPAREN statement
+    (18) try_catch_statement -> TRY . statement catch_blocks
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
 
-    LPAREN          shift and go to state 29
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
 
+    statement                      shift and go to state 26
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
 
 state 17
 
-    (24) for_loop -> FOR . LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (9) assignment -> VAR VAR . EQUAL expression
+    (10) var_declaration -> VAR VAR . EQUAL expression
+    (11) var_declaration -> VAR VAR .
 
-    LPAREN          shift and go to state 30
+    EQUAL           shift and go to state 27
+    $end            reduce using rule 11 (var_declaration -> VAR VAR .)
+    CATCH           reduce using rule 11 (var_declaration -> VAR VAR .)
+    ELSE            reduce using rule 11 (var_declaration -> VAR VAR .)
 
 
 state 18
 
-    (25) return_statement -> RETURN . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (12) if_statement -> IF LPAREN . expression RPAREN statement
+    (13) if_statement -> IF LPAREN . expression RPAREN statement ELSE statement
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-    expression                     shift and go to state 31
+    expression                     shift and go to state 28
 
 state 19
 
-    (26) sleep_statement -> SLEEP . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (14) while_loop -> WHILE LPAREN . expression RPAREN statement
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-    expression                     shift and go to state 32
+    expression                     shift and go to state 29
 
 state 20
 
-    (27) try_catch_statement -> TRY . statement catch_blocks
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (15) for_loop -> FOR LPAREN . expression SCOLN expression SCOLN expression RPAREN statement
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-    statement                      shift and go to state 33
-    expression                     shift and go to state 2
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
+    expression                     shift and go to state 30
 
 state 21
 
-    (10) expression -> expression PLUS . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (16) return_statement -> RETURN expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    $end            reduce using rule 16 (return_statement -> RETURN expression .)
+    CATCH           reduce using rule 16 (return_statement -> RETURN expression .)
+    ELSE            reduce using rule 16 (return_statement -> RETURN expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-    expression                     shift and go to state 34
 
 state 22
 
-    (11) expression -> expression MINUS . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (27) expression -> LPAREN . expression RPAREN
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-
-    expression                     shift and go to state 35
-
-state 23
-
-    (12) expression -> expression TIMES . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
     expression                     shift and go to state 36
 
+state 23
+
+    (28) expression -> NUMBER .
+
+    PLUS            reduce using rule 28 (expression -> NUMBER .)
+    MINUS           reduce using rule 28 (expression -> NUMBER .)
+    TIMES           reduce using rule 28 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 28 (expression -> NUMBER .)
+    COMPEQU         reduce using rule 28 (expression -> NUMBER .)
+    $end            reduce using rule 28 (expression -> NUMBER .)
+    CATCH           reduce using rule 28 (expression -> NUMBER .)
+    ELSE            reduce using rule 28 (expression -> NUMBER .)
+    RPAREN          reduce using rule 28 (expression -> NUMBER .)
+    SCOLN           reduce using rule 28 (expression -> NUMBER .)
+
+
 state 24
 
-    (13) expression -> expression DIVIDE . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (29) expression -> VAR .
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    PLUS            reduce using rule 29 (expression -> VAR .)
+    MINUS           reduce using rule 29 (expression -> VAR .)
+    TIMES           reduce using rule 29 (expression -> VAR .)
+    DIVIDE          reduce using rule 29 (expression -> VAR .)
+    COMPEQU         reduce using rule 29 (expression -> VAR .)
+    $end            reduce using rule 29 (expression -> VAR .)
+    CATCH           reduce using rule 29 (expression -> VAR .)
+    ELSE            reduce using rule 29 (expression -> VAR .)
+    RPAREN          reduce using rule 29 (expression -> VAR .)
+    SCOLN           reduce using rule 29 (expression -> VAR .)
 
-    expression                     shift and go to state 37
 
 state 25
 
-    (14) expression -> expression COMPEQU . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (17) sleep_statement -> SLEEP expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    $end            reduce using rule 17 (sleep_statement -> SLEEP expression .)
+    CATCH           reduce using rule 17 (sleep_statement -> SLEEP expression .)
+    ELSE            reduce using rule 17 (sleep_statement -> SLEEP expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-    expression                     shift and go to state 38
 
 state 26
 
-    (15) expression -> LPAREN expression . RPAREN
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (18) try_catch_statement -> TRY statement . catch_blocks
+    (19) catch_blocks -> . catch_block
+    (20) catch_blocks -> . catch_block catch_blocks
+    (21) catch_block -> . CATCH LPAREN VAR RPAREN statement
 
-    RPAREN          shift and go to state 39
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    CATCH           shift and go to state 39
 
+    catch_blocks                   shift and go to state 37
+    catch_block                    shift and go to state 38
 
 state 27
 
-    (18) assignment -> VAR NAME . EQUAL expression
-    (19) var_declaration -> VAR NAME . EQUAL expression
-    (20) var_declaration -> VAR NAME .
+    (9) assignment -> VAR VAR EQUAL . expression
+    (10) var_declaration -> VAR VAR EQUAL . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    EQUAL           shift and go to state 40
-    $end            reduce using rule 20 (var_declaration -> VAR NAME .)
-    CATCH           reduce using rule 20 (var_declaration -> VAR NAME .)
-    ELSE            reduce using rule 20 (var_declaration -> VAR NAME .)
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
+    expression                     shift and go to state 40
 
 state 28
 
-    (21) if_statement -> IF LPAREN . expression RPAREN statement
-    (22) if_statement -> IF LPAREN . expression RPAREN statement ELSE statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (12) if_statement -> IF LPAREN expression . RPAREN statement
+    (13) if_statement -> IF LPAREN expression . RPAREN statement ELSE statement
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    RPAREN          shift and go to state 41
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-    expression                     shift and go to state 41
 
 state 29
 
-    (23) while_loop -> WHILE LPAREN . expression RPAREN statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (14) while_loop -> WHILE LPAREN expression . RPAREN statement
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    RPAREN          shift and go to state 42
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-    expression                     shift and go to state 42
 
 state 30
 
-    (24) for_loop -> FOR LPAREN . expression SCOLN expression SCOLN expression RPAREN statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (15) for_loop -> FOR LPAREN expression . SCOLN expression SCOLN expression RPAREN statement
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    SCOLN           shift and go to state 43
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-    expression                     shift and go to state 43
 
 state 31
 
-    (25) return_statement -> RETURN expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (22) expression -> expression PLUS . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    $end            reduce using rule 25 (return_statement -> RETURN expression .)
-    CATCH           reduce using rule 25 (return_statement -> RETURN expression .)
-    ELSE            reduce using rule 25 (return_statement -> RETURN expression .)
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
+    expression                     shift and go to state 44
 
 state 32
 
-    (26) sleep_statement -> SLEEP expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (23) expression -> expression MINUS . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    $end            reduce using rule 26 (sleep_statement -> SLEEP expression .)
-    CATCH           reduce using rule 26 (sleep_statement -> SLEEP expression .)
-    ELSE            reduce using rule 26 (sleep_statement -> SLEEP expression .)
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
+    expression                     shift and go to state 45
 
 state 33
 
-    (27) try_catch_statement -> TRY statement . catch_blocks
-    (28) catch_blocks -> . catch_block
-    (29) catch_blocks -> . catch_block catch_blocks
-    (30) catch_block -> . CATCH LPAREN NAME RPAREN statement
+    (24) expression -> expression TIMES . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    CATCH           shift and go to state 46
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-    catch_blocks                   shift and go to state 44
-    catch_block                    shift and go to state 45
+    expression                     shift and go to state 46
 
 state 34
 
-    (10) expression -> expression PLUS expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (25) expression -> expression DIVIDE . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    PLUS            reduce using rule 10 (expression -> expression PLUS expression .)
-    MINUS           reduce using rule 10 (expression -> expression PLUS expression .)
-    COMPEQU         reduce using rule 10 (expression -> expression PLUS expression .)
-    $end            reduce using rule 10 (expression -> expression PLUS expression .)
-    RPAREN          reduce using rule 10 (expression -> expression PLUS expression .)
-    CATCH           reduce using rule 10 (expression -> expression PLUS expression .)
-    ELSE            reduce using rule 10 (expression -> expression PLUS expression .)
-    SCOLN           reduce using rule 10 (expression -> expression PLUS expression .)
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-  ! TIMES           [ reduce using rule 10 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 10 (expression -> expression PLUS expression .) ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! COMPEQU         [ shift and go to state 25 ]
-
+    expression                     shift and go to state 47
 
 state 35
 
-    (11) expression -> expression MINUS expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (26) expression -> expression COMPEQU . expression
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    PLUS            reduce using rule 11 (expression -> expression MINUS expression .)
-    MINUS           reduce using rule 11 (expression -> expression MINUS expression .)
-    COMPEQU         reduce using rule 11 (expression -> expression MINUS expression .)
-    $end            reduce using rule 11 (expression -> expression MINUS expression .)
-    RPAREN          reduce using rule 11 (expression -> expression MINUS expression .)
-    CATCH           reduce using rule 11 (expression -> expression MINUS expression .)
-    ELSE            reduce using rule 11 (expression -> expression MINUS expression .)
-    SCOLN           reduce using rule 11 (expression -> expression MINUS expression .)
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-  ! TIMES           [ reduce using rule 11 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 11 (expression -> expression MINUS expression .) ]
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! COMPEQU         [ shift and go to state 25 ]
-
+    expression                     shift and go to state 48
 
 state 36
 
-    (12) expression -> expression TIMES expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (27) expression -> LPAREN expression . RPAREN
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    PLUS            reduce using rule 12 (expression -> expression TIMES expression .)
-    MINUS           reduce using rule 12 (expression -> expression TIMES expression .)
-    TIMES           reduce using rule 12 (expression -> expression TIMES expression .)
-    DIVIDE          reduce using rule 12 (expression -> expression TIMES expression .)
-    COMPEQU         reduce using rule 12 (expression -> expression TIMES expression .)
-    $end            reduce using rule 12 (expression -> expression TIMES expression .)
-    RPAREN          reduce using rule 12 (expression -> expression TIMES expression .)
-    CATCH           reduce using rule 12 (expression -> expression TIMES expression .)
-    ELSE            reduce using rule 12 (expression -> expression TIMES expression .)
-    SCOLN           reduce using rule 12 (expression -> expression TIMES expression .)
-
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! TIMES           [ shift and go to state 23 ]
-  ! DIVIDE          [ shift and go to state 24 ]
-  ! COMPEQU         [ shift and go to state 25 ]
+    RPAREN          shift and go to state 49
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
 
 state 37
 
-    (13) expression -> expression DIVIDE expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (18) try_catch_statement -> TRY statement catch_blocks .
 
-    PLUS            reduce using rule 13 (expression -> expression DIVIDE expression .)
-    MINUS           reduce using rule 13 (expression -> expression DIVIDE expression .)
-    TIMES           reduce using rule 13 (expression -> expression DIVIDE expression .)
-    DIVIDE          reduce using rule 13 (expression -> expression DIVIDE expression .)
-    COMPEQU         reduce using rule 13 (expression -> expression DIVIDE expression .)
-    $end            reduce using rule 13 (expression -> expression DIVIDE expression .)
-    RPAREN          reduce using rule 13 (expression -> expression DIVIDE expression .)
-    CATCH           reduce using rule 13 (expression -> expression DIVIDE expression .)
-    ELSE            reduce using rule 13 (expression -> expression DIVIDE expression .)
-    SCOLN           reduce using rule 13 (expression -> expression DIVIDE expression .)
-
-  ! PLUS            [ shift and go to state 21 ]
-  ! MINUS           [ shift and go to state 22 ]
-  ! TIMES           [ shift and go to state 23 ]
-  ! DIVIDE          [ shift and go to state 24 ]
-  ! COMPEQU         [ shift and go to state 25 ]
+    $end            reduce using rule 18 (try_catch_statement -> TRY statement catch_blocks .)
+    CATCH           reduce using rule 18 (try_catch_statement -> TRY statement catch_blocks .)
+    ELSE            reduce using rule 18 (try_catch_statement -> TRY statement catch_blocks .)
 
 
 state 38
 
-    (14) expression -> expression COMPEQU expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (19) catch_blocks -> catch_block .
+    (20) catch_blocks -> catch_block . catch_blocks
+    (19) catch_blocks -> . catch_block
+    (20) catch_blocks -> . catch_block catch_blocks
+    (21) catch_block -> . CATCH LPAREN VAR RPAREN statement
+
+  ! shift/reduce conflict for CATCH resolved as shift
+    ELSE            reduce using rule 19 (catch_blocks -> catch_block .)
+    $end            reduce using rule 19 (catch_blocks -> catch_block .)
+    CATCH           shift and go to state 39
+
+  ! CATCH           [ reduce using rule 19 (catch_blocks -> catch_block .) ]
+
+    catch_block                    shift and go to state 38
+    catch_blocks                   shift and go to state 50
+
+state 39
+
+    (21) catch_block -> CATCH . LPAREN VAR RPAREN statement
+
+    LPAREN          shift and go to state 51
+
+
+state 40
+
+    (9) assignment -> VAR VAR EQUAL expression .
+    (10) var_declaration -> VAR VAR EQUAL expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
+
+  ! reduce/reduce conflict for $end resolved using rule 9 (assignment -> VAR VAR EQUAL expression .)
+  ! reduce/reduce conflict for CATCH resolved using rule 9 (assignment -> VAR VAR EQUAL expression .)
+  ! reduce/reduce conflict for ELSE resolved using rule 9 (assignment -> VAR VAR EQUAL expression .)
+    $end            reduce using rule 9 (assignment -> VAR VAR EQUAL expression .)
+    CATCH           reduce using rule 9 (assignment -> VAR VAR EQUAL expression .)
+    ELSE            reduce using rule 9 (assignment -> VAR VAR EQUAL expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
+
+  ! $end            [ reduce using rule 10 (var_declaration -> VAR VAR EQUAL expression .) ]
+  ! CATCH           [ reduce using rule 10 (var_declaration -> VAR VAR EQUAL expression .) ]
+  ! ELSE            [ reduce using rule 10 (var_declaration -> VAR VAR EQUAL expression .) ]
+
+
+state 41
+
+    (12) if_statement -> IF LPAREN expression RPAREN . statement
+    (13) if_statement -> IF LPAREN expression RPAREN . statement ELSE statement
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
+
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
+
+    statement                      shift and go to state 52
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
+
+state 42
+
+    (14) while_loop -> WHILE LPAREN expression RPAREN . statement
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
+
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
+
+    statement                      shift and go to state 53
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
+
+state 43
+
+    (15) for_loop -> FOR LPAREN expression SCOLN . expression SCOLN expression RPAREN statement
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
+
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
+
+    expression                     shift and go to state 54
+
+state 44
+
+    (22) expression -> expression PLUS expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
   ! shift/reduce conflict for PLUS resolved as shift
   ! shift/reduce conflict for MINUS resolved as shift
   ! shift/reduce conflict for TIMES resolved as shift
   ! shift/reduce conflict for DIVIDE resolved as shift
   ! shift/reduce conflict for COMPEQU resolved as shift
-    $end            reduce using rule 14 (expression -> expression COMPEQU expression .)
-    RPAREN          reduce using rule 14 (expression -> expression COMPEQU expression .)
-    CATCH           reduce using rule 14 (expression -> expression COMPEQU expression .)
-    ELSE            reduce using rule 14 (expression -> expression COMPEQU expression .)
-    SCOLN           reduce using rule 14 (expression -> expression COMPEQU expression .)
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    $end            reduce using rule 22 (expression -> expression PLUS expression .)
+    CATCH           reduce using rule 22 (expression -> expression PLUS expression .)
+    ELSE            reduce using rule 22 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 22 (expression -> expression PLUS expression .)
+    SCOLN           reduce using rule 22 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-  ! PLUS            [ reduce using rule 14 (expression -> expression COMPEQU expression .) ]
-  ! MINUS           [ reduce using rule 14 (expression -> expression COMPEQU expression .) ]
-  ! TIMES           [ reduce using rule 14 (expression -> expression COMPEQU expression .) ]
-  ! DIVIDE          [ reduce using rule 14 (expression -> expression COMPEQU expression .) ]
-  ! COMPEQU         [ reduce using rule 14 (expression -> expression COMPEQU expression .) ]
-
-
-state 39
-
-    (15) expression -> LPAREN expression RPAREN .
-
-    PLUS            reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    TIMES           reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    COMPEQU         reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    $end            reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    CATCH           reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    ELSE            reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    SCOLN           reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-
-
-state 40
-
-    (18) assignment -> VAR NAME EQUAL . expression
-    (19) var_declaration -> VAR NAME EQUAL . expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-
-    expression                     shift and go to state 47
-
-state 41
-
-    (21) if_statement -> IF LPAREN expression . RPAREN statement
-    (22) if_statement -> IF LPAREN expression . RPAREN statement ELSE statement
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
-
-    RPAREN          shift and go to state 48
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
-
-
-state 42
-
-    (23) while_loop -> WHILE LPAREN expression . RPAREN statement
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
-
-    RPAREN          shift and go to state 49
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
-
-
-state 43
-
-    (24) for_loop -> FOR LPAREN expression . SCOLN expression SCOLN expression RPAREN statement
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
-
-    SCOLN           shift and go to state 50
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
-
-
-state 44
-
-    (27) try_catch_statement -> TRY statement catch_blocks .
-
-    $end            reduce using rule 27 (try_catch_statement -> TRY statement catch_blocks .)
-    CATCH           reduce using rule 27 (try_catch_statement -> TRY statement catch_blocks .)
-    ELSE            reduce using rule 27 (try_catch_statement -> TRY statement catch_blocks .)
+  ! PLUS            [ reduce using rule 22 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 22 (expression -> expression PLUS expression .) ]
+  ! TIMES           [ reduce using rule 22 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 22 (expression -> expression PLUS expression .) ]
+  ! COMPEQU         [ reduce using rule 22 (expression -> expression PLUS expression .) ]
 
 
 state 45
 
-    (28) catch_blocks -> catch_block .
-    (29) catch_blocks -> catch_block . catch_blocks
-    (28) catch_blocks -> . catch_block
-    (29) catch_blocks -> . catch_block catch_blocks
-    (30) catch_block -> . CATCH LPAREN NAME RPAREN statement
+    (23) expression -> expression MINUS expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-  ! shift/reduce conflict for CATCH resolved as shift
-    ELSE            reduce using rule 28 (catch_blocks -> catch_block .)
-    $end            reduce using rule 28 (catch_blocks -> catch_block .)
-    CATCH           shift and go to state 46
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for COMPEQU resolved as shift
+    $end            reduce using rule 23 (expression -> expression MINUS expression .)
+    CATCH           reduce using rule 23 (expression -> expression MINUS expression .)
+    ELSE            reduce using rule 23 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 23 (expression -> expression MINUS expression .)
+    SCOLN           reduce using rule 23 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-  ! CATCH           [ reduce using rule 28 (catch_blocks -> catch_block .) ]
+  ! PLUS            [ reduce using rule 23 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 23 (expression -> expression MINUS expression .) ]
+  ! TIMES           [ reduce using rule 23 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 23 (expression -> expression MINUS expression .) ]
+  ! COMPEQU         [ reduce using rule 23 (expression -> expression MINUS expression .) ]
 
-    catch_block                    shift and go to state 45
-    catch_blocks                   shift and go to state 51
 
 state 46
 
-    (30) catch_block -> CATCH . LPAREN NAME RPAREN statement
+    (24) expression -> expression TIMES expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 52
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for COMPEQU resolved as shift
+    $end            reduce using rule 24 (expression -> expression TIMES expression .)
+    CATCH           reduce using rule 24 (expression -> expression TIMES expression .)
+    ELSE            reduce using rule 24 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 24 (expression -> expression TIMES expression .)
+    SCOLN           reduce using rule 24 (expression -> expression TIMES expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
+
+  ! PLUS            [ reduce using rule 24 (expression -> expression TIMES expression .) ]
+  ! MINUS           [ reduce using rule 24 (expression -> expression TIMES expression .) ]
+  ! TIMES           [ reduce using rule 24 (expression -> expression TIMES expression .) ]
+  ! DIVIDE          [ reduce using rule 24 (expression -> expression TIMES expression .) ]
+  ! COMPEQU         [ reduce using rule 24 (expression -> expression TIMES expression .) ]
 
 
 state 47
 
-    (18) assignment -> VAR NAME EQUAL expression .
-    (19) var_declaration -> VAR NAME EQUAL expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (25) expression -> expression DIVIDE expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-  ! reduce/reduce conflict for $end resolved using rule 18 (assignment -> VAR NAME EQUAL expression .)
-  ! reduce/reduce conflict for CATCH resolved using rule 18 (assignment -> VAR NAME EQUAL expression .)
-  ! reduce/reduce conflict for ELSE resolved using rule 18 (assignment -> VAR NAME EQUAL expression .)
-    $end            reduce using rule 18 (assignment -> VAR NAME EQUAL expression .)
-    CATCH           reduce using rule 18 (assignment -> VAR NAME EQUAL expression .)
-    ELSE            reduce using rule 18 (assignment -> VAR NAME EQUAL expression .)
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for COMPEQU resolved as shift
+    $end            reduce using rule 25 (expression -> expression DIVIDE expression .)
+    CATCH           reduce using rule 25 (expression -> expression DIVIDE expression .)
+    ELSE            reduce using rule 25 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 25 (expression -> expression DIVIDE expression .)
+    SCOLN           reduce using rule 25 (expression -> expression DIVIDE expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-  ! $end            [ reduce using rule 19 (var_declaration -> VAR NAME EQUAL expression .) ]
-  ! CATCH           [ reduce using rule 19 (var_declaration -> VAR NAME EQUAL expression .) ]
-  ! ELSE            [ reduce using rule 19 (var_declaration -> VAR NAME EQUAL expression .) ]
+  ! PLUS            [ reduce using rule 25 (expression -> expression DIVIDE expression .) ]
+  ! MINUS           [ reduce using rule 25 (expression -> expression DIVIDE expression .) ]
+  ! TIMES           [ reduce using rule 25 (expression -> expression DIVIDE expression .) ]
+  ! DIVIDE          [ reduce using rule 25 (expression -> expression DIVIDE expression .) ]
+  ! COMPEQU         [ reduce using rule 25 (expression -> expression DIVIDE expression .) ]
 
 
 state 48
 
-    (21) if_statement -> IF LPAREN expression RPAREN . statement
-    (22) if_statement -> IF LPAREN expression RPAREN . statement ELSE statement
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (26) expression -> expression COMPEQU expression .
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for COMPEQU resolved as shift
+    $end            reduce using rule 26 (expression -> expression COMPEQU expression .)
+    CATCH           reduce using rule 26 (expression -> expression COMPEQU expression .)
+    ELSE            reduce using rule 26 (expression -> expression COMPEQU expression .)
+    RPAREN          reduce using rule 26 (expression -> expression COMPEQU expression .)
+    SCOLN           reduce using rule 26 (expression -> expression COMPEQU expression .)
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
-    expression                     shift and go to state 2
-    statement                      shift and go to state 53
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
+  ! PLUS            [ reduce using rule 26 (expression -> expression COMPEQU expression .) ]
+  ! MINUS           [ reduce using rule 26 (expression -> expression COMPEQU expression .) ]
+  ! TIMES           [ reduce using rule 26 (expression -> expression COMPEQU expression .) ]
+  ! DIVIDE          [ reduce using rule 26 (expression -> expression COMPEQU expression .) ]
+  ! COMPEQU         [ reduce using rule 26 (expression -> expression COMPEQU expression .) ]
+
 
 state 49
 
-    (23) while_loop -> WHILE LPAREN expression RPAREN . statement
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (27) expression -> LPAREN expression RPAREN .
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
+    PLUS            reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    COMPEQU         reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    CATCH           reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    ELSE            reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    SCOLN           reduce using rule 27 (expression -> LPAREN expression RPAREN .)
 
-    expression                     shift and go to state 2
-    statement                      shift and go to state 54
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
 
 state 50
 
-    (24) for_loop -> FOR LPAREN expression SCOLN . expression SCOLN expression RPAREN statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (20) catch_blocks -> catch_block catch_blocks .
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    ELSE            reduce using rule 20 (catch_blocks -> catch_block catch_blocks .)
+    $end            reduce using rule 20 (catch_blocks -> catch_block catch_blocks .)
+    CATCH           reduce using rule 20 (catch_blocks -> catch_block catch_blocks .)
 
-    expression                     shift and go to state 55
 
 state 51
 
-    (29) catch_blocks -> catch_block catch_blocks .
+    (21) catch_block -> CATCH LPAREN . VAR RPAREN statement
 
-    ELSE            reduce using rule 29 (catch_blocks -> catch_block catch_blocks .)
-    $end            reduce using rule 29 (catch_blocks -> catch_block catch_blocks .)
-    CATCH           reduce using rule 29 (catch_blocks -> catch_block catch_blocks .)
+    VAR             shift and go to state 55
 
 
 state 52
 
-    (30) catch_block -> CATCH LPAREN . NAME RPAREN statement
+    (12) if_statement -> IF LPAREN expression RPAREN statement .
+    (13) if_statement -> IF LPAREN expression RPAREN statement . ELSE statement
 
-    NAME            shift and go to state 56
+  ! shift/reduce conflict for ELSE resolved as shift
+    $end            reduce using rule 12 (if_statement -> IF LPAREN expression RPAREN statement .)
+    CATCH           reduce using rule 12 (if_statement -> IF LPAREN expression RPAREN statement .)
+    ELSE            shift and go to state 56
+
+  ! ELSE            [ reduce using rule 12 (if_statement -> IF LPAREN expression RPAREN statement .) ]
 
 
 state 53
 
-    (21) if_statement -> IF LPAREN expression RPAREN statement .
-    (22) if_statement -> IF LPAREN expression RPAREN statement . ELSE statement
+    (14) while_loop -> WHILE LPAREN expression RPAREN statement .
 
-  ! shift/reduce conflict for ELSE resolved as shift
-    $end            reduce using rule 21 (if_statement -> IF LPAREN expression RPAREN statement .)
-    CATCH           reduce using rule 21 (if_statement -> IF LPAREN expression RPAREN statement .)
-    ELSE            shift and go to state 57
-
-  ! ELSE            [ reduce using rule 21 (if_statement -> IF LPAREN expression RPAREN statement .) ]
+    $end            reduce using rule 14 (while_loop -> WHILE LPAREN expression RPAREN statement .)
+    CATCH           reduce using rule 14 (while_loop -> WHILE LPAREN expression RPAREN statement .)
+    ELSE            reduce using rule 14 (while_loop -> WHILE LPAREN expression RPAREN statement .)
 
 
 state 54
 
-    (23) while_loop -> WHILE LPAREN expression RPAREN statement .
+    (15) for_loop -> FOR LPAREN expression SCOLN expression . SCOLN expression RPAREN statement
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    $end            reduce using rule 23 (while_loop -> WHILE LPAREN expression RPAREN statement .)
-    CATCH           reduce using rule 23 (while_loop -> WHILE LPAREN expression RPAREN statement .)
-    ELSE            reduce using rule 23 (while_loop -> WHILE LPAREN expression RPAREN statement .)
+    SCOLN           shift and go to state 57
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
 
 state 55
 
-    (24) for_loop -> FOR LPAREN expression SCOLN expression . SCOLN expression RPAREN statement
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (21) catch_block -> CATCH LPAREN VAR . RPAREN statement
 
-    SCOLN           shift and go to state 58
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    RPAREN          shift and go to state 58
 
 
 state 56
 
-    (30) catch_block -> CATCH LPAREN NAME . RPAREN statement
+    (13) if_statement -> IF LPAREN expression RPAREN statement ELSE . statement
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
 
-    RPAREN          shift and go to state 59
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
 
+    statement                      shift and go to state 59
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
 
 state 57
 
-    (22) if_statement -> IF LPAREN expression RPAREN statement ELSE . statement
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (15) for_loop -> FOR LPAREN expression SCOLN expression SCOLN . expression RPAREN statement
+    (22) expression -> . expression PLUS expression
+    (23) expression -> . expression MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression COMPEQU expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . VAR
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
+    LPAREN          shift and go to state 22
+    NUMBER          shift and go to state 23
+    VAR             shift and go to state 24
 
-    expression                     shift and go to state 2
-    statement                      shift and go to state 60
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
+    expression                     shift and go to state 60
 
 state 58
 
-    (24) for_loop -> FOR LPAREN expression SCOLN expression SCOLN . expression RPAREN statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
+    (21) catch_block -> CATCH LPAREN VAR RPAREN . statement
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
 
-    expression                     shift and go to state 61
+    statement                      shift and go to state 61
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
 
 state 59
 
-    (30) catch_block -> CATCH LPAREN NAME RPAREN . statement
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (13) if_statement -> IF LPAREN expression RPAREN statement ELSE statement .
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
+    $end            reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN statement ELSE statement .)
+    CATCH           reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN statement ELSE statement .)
+    ELSE            reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN statement ELSE statement .)
 
-    statement                      shift and go to state 62
-    expression                     shift and go to state 2
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
 
 state 60
 
-    (22) if_statement -> IF LPAREN expression RPAREN statement ELSE statement .
+    (15) for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression . RPAREN statement
+    (22) expression -> expression . PLUS expression
+    (23) expression -> expression . MINUS expression
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . COMPEQU expression
 
-    $end            reduce using rule 22 (if_statement -> IF LPAREN expression RPAREN statement ELSE statement .)
-    CATCH           reduce using rule 22 (if_statement -> IF LPAREN expression RPAREN statement ELSE statement .)
-    ELSE            reduce using rule 22 (if_statement -> IF LPAREN expression RPAREN statement ELSE statement .)
+    RPAREN          shift and go to state 62
+    PLUS            shift and go to state 31
+    MINUS           shift and go to state 32
+    TIMES           shift and go to state 33
+    DIVIDE          shift and go to state 34
+    COMPEQU         shift and go to state 35
 
 
 state 61
 
-    (24) for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression . RPAREN statement
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . TIMES expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . COMPEQU expression
+    (21) catch_block -> CATCH LPAREN VAR RPAREN statement .
 
-    RPAREN          shift and go to state 63
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 22
-    TIMES           shift and go to state 23
-    DIVIDE          shift and go to state 24
-    COMPEQU         shift and go to state 25
+    ELSE            reduce using rule 21 (catch_block -> CATCH LPAREN VAR RPAREN statement .)
+    $end            reduce using rule 21 (catch_block -> CATCH LPAREN VAR RPAREN statement .)
+    CATCH           reduce using rule 21 (catch_block -> CATCH LPAREN VAR RPAREN statement .)
 
 
 state 62
 
-    (30) catch_block -> CATCH LPAREN NAME RPAREN statement .
+    (15) for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN . statement
+    (1) statement -> . assignment
+    (2) statement -> . var_declaration
+    (3) statement -> . if_statement
+    (4) statement -> . while_loop
+    (5) statement -> . for_loop
+    (6) statement -> . return_statement
+    (7) statement -> . sleep_statement
+    (8) statement -> . try_catch_statement
+    (9) assignment -> . VAR VAR EQUAL expression
+    (10) var_declaration -> . VAR VAR EQUAL expression
+    (11) var_declaration -> . VAR VAR
+    (12) if_statement -> . IF LPAREN expression RPAREN statement
+    (13) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
+    (14) while_loop -> . WHILE LPAREN expression RPAREN statement
+    (15) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
+    (16) return_statement -> . RETURN expression
+    (17) sleep_statement -> . SLEEP expression
+    (18) try_catch_statement -> . TRY statement catch_blocks
 
-    ELSE            reduce using rule 30 (catch_block -> CATCH LPAREN NAME RPAREN statement .)
-    $end            reduce using rule 30 (catch_block -> CATCH LPAREN NAME RPAREN statement .)
-    CATCH           reduce using rule 30 (catch_block -> CATCH LPAREN NAME RPAREN statement .)
+    VAR             shift and go to state 10
+    IF              shift and go to state 11
+    WHILE           shift and go to state 12
+    FOR             shift and go to state 13
+    RETURN          shift and go to state 14
+    SLEEP           shift and go to state 15
+    TRY             shift and go to state 16
 
+    statement                      shift and go to state 63
+    assignment                     shift and go to state 2
+    var_declaration                shift and go to state 3
+    if_statement                   shift and go to state 4
+    while_loop                     shift and go to state 5
+    for_loop                       shift and go to state 6
+    return_statement               shift and go to state 7
+    sleep_statement                shift and go to state 8
+    try_catch_statement            shift and go to state 9
 
 state 63
 
-    (24) for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN . statement
-    (1) statement -> . expression
-    (2) statement -> . assignment
-    (3) statement -> . var_declaration
-    (4) statement -> . if_statement
-    (5) statement -> . while_loop
-    (6) statement -> . for_loop
-    (7) statement -> . return_statement
-    (8) statement -> . sleep_statement
-    (9) statement -> . try_catch_statement
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression TIMES expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression COMPEQU expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . NUMBER
-    (17) expression -> . NAME
-    (18) assignment -> . VAR NAME EQUAL expression
-    (19) var_declaration -> . VAR NAME EQUAL expression
-    (20) var_declaration -> . VAR NAME
-    (21) if_statement -> . IF LPAREN expression RPAREN statement
-    (22) if_statement -> . IF LPAREN expression RPAREN statement ELSE statement
-    (23) while_loop -> . WHILE LPAREN expression RPAREN statement
-    (24) for_loop -> . FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement
-    (25) return_statement -> . RETURN expression
-    (26) sleep_statement -> . SLEEP expression
-    (27) try_catch_statement -> . TRY statement catch_blocks
+    (15) for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .
 
-    LPAREN          shift and go to state 11
-    NUMBER          shift and go to state 12
-    NAME            shift and go to state 13
-    VAR             shift and go to state 14
-    IF              shift and go to state 15
-    WHILE           shift and go to state 16
-    FOR             shift and go to state 17
-    RETURN          shift and go to state 18
-    SLEEP           shift and go to state 19
-    TRY             shift and go to state 20
-
-    expression                     shift and go to state 2
-    statement                      shift and go to state 64
-    assignment                     shift and go to state 3
-    var_declaration                shift and go to state 4
-    if_statement                   shift and go to state 5
-    while_loop                     shift and go to state 6
-    for_loop                       shift and go to state 7
-    return_statement               shift and go to state 8
-    sleep_statement                shift and go to state 9
-    try_catch_statement            shift and go to state 10
-
-state 64
-
-    (24) for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .
-
-    $end            reduce using rule 24 (for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .)
-    CATCH           reduce using rule 24 (for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .)
-    ELSE            reduce using rule 24 (for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .)
+    $end            reduce using rule 15 (for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .)
+    CATCH           reduce using rule 15 (for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .)
+    ELSE            reduce using rule 15 (for_loop -> FOR LPAREN expression SCOLN expression SCOLN expression RPAREN statement .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 38 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 38 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 38 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 38 resolved as shift
-WARNING: shift/reduce conflict for COMPEQU in state 38 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 45 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 53 resolved as shift
-WARNING: reduce/reduce conflict in state 47 resolved using rule (assignment -> VAR NAME EQUAL expression)
-WARNING: rejected rule (var_declaration -> VAR NAME EQUAL expression) in state 47
-WARNING: Rule (var_declaration -> VAR NAME EQUAL expression) is never reduced
+WARNING: shift/reduce conflict for CATCH in state 38 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 44 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 44 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 44 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 44 resolved as shift
+WARNING: shift/reduce conflict for COMPEQU in state 44 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 45 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 45 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 45 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 45 resolved as shift
+WARNING: shift/reduce conflict for COMPEQU in state 45 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 46 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 46 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 46 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 46 resolved as shift
+WARNING: shift/reduce conflict for COMPEQU in state 46 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 47 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 47 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 47 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 47 resolved as shift
+WARNING: shift/reduce conflict for COMPEQU in state 47 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 48 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 48 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 48 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 48 resolved as shift
+WARNING: shift/reduce conflict for COMPEQU in state 48 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 52 resolved as shift
+WARNING: reduce/reduce conflict in state 40 resolved using rule (assignment -> VAR VAR EQUAL expression)
+WARNING: rejected rule (var_declaration -> VAR VAR EQUAL expression) in state 40
+WARNING: Rule (var_declaration -> VAR VAR EQUAL expression) is never reduced
