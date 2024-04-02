@@ -2,52 +2,55 @@ from ply import lex
 from ply import yacc
 
 # Define tokens
-tokens = (
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
-    'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'EQUAL',
-    'COM', 'QUOTE', 'PERIOD', 'SCOLN', 'COMPEQU', 'LES', 'MOD', 'SORT', 
-    'COMMENT', 'NOT', 'VAR', 'SHELL', 'SLOW', 'SLIME', 'SPIRAL', 'SNAIL', 'ESCARGO',
-    'IF', 'ELSE', 'WHILE', 'FOR', 'RETURN', 'SLEEP', 'TRY', 'CATCH', 'CHAR'
-)
+tokens = ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+           'NAME', 'NUMBER','AND','OR','GR8R','LBRA','RBRA','EQUAL',
+            'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 'VAR', 
+            'COM','QUOTE','PERIOD','SCOLN','COMPEQU','LES', 'MOD', 'SORT', 
+            'FOR', 'WHILE','IF','ELSE','RETURN','SLEEP','VAR','TRY','CATCH', 
+            'COMMENT','NOT','SHELL', 'SLOW', 'SLIME', 'SPIRAL', 'SNAIL', 'ESCARGO' )
 
-# Regular expression rules for tokens
-t_PLUS = r'\+'
+t_ignore = ' \t'
+t_PLUS= r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_AND = r'\&'
-t_OR = r'\|'
-t_GR8R = r'\>'
-t_LBRA = r'\['
-t_RBRA = r'\]'
-t_COM = r'\,'
-t_QUOTE = r'\"|\''
-t_PERIOD = r'\.'
-t_SCOLN = r'\;'
-t_COMPEQU = r'\=='
-t_LES = r'\<'
-t_MOD = r'\%'
-t_SORT = r'\>>'
-t_NOT = r'\!'
-t_NUMBER = r'\d+'
-t_EQUAL = r'='
+t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_AND=r'\&'
+t_OR=r'\|'
+t_GR8R= r'\>'
+t_LBRA=r'\['
+t_RBRA=r'\]'
+t_COM=r'\,'
+t_QUOTE=r'\"|\''
+t_PERIOD=r'\.'
+t_SCOLN=r'\;'
+t_COMPEQU=r'\=='
+t_LES=r'\<'
+t_MOD=r'\%'
+t_SORT=r'\>>'
+t_NOT=r'\!'
+T_COMMENT=r'//'
+t_VAR = r'[\w]+'
+
+## keywords
 t_SHELL = r'SHELL'
 t_SLOW = r'SLOW'
 t_SLIME = r'SLIME'
 t_SPIRAL = r'SPIRAL'
 t_SNAIL = r'SNAIL'
 t_ESCARGO = r'ESCARGO'
-t_IF = r'IF'
-t_ELSE = r'ELSE'
-t_WHILE = r'WHILE'
-t_FOR = r'FOR'
-t_RETURN = r'RETURN'
-t_SLEEP = r'SLEEP'
-t_TRY = r'TRY'
-t_CATCH = r'CATCH'
-t_VAR = r'[\w]+'
+t_FOR=r'FOR'
+t_WHILE=r'WHILE'
+T_IF=r'IF'
+T_ELSE=r'ELSE'
+T_RETURN=r'RETURN'
+T_SLEEP=r'SLEEP'
+T_VAR=r'VAR'
+T_TRY=r'TRY'
+T_CATCH=r'CATCH'
+
 
 
 
