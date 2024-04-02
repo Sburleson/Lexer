@@ -50,24 +50,7 @@ t_NOT=r'\!'
 T_COMMENT=r'//'
 t_VAR = r'[\w]+'
 
-## keywords
-t_SHELL = r'SHELL'
-t_SLOW = r'SLOW'
-t_SLIME = r'SLIME'
-t_SPIRAL = r'SPIRAL'
-t_SNAIL = r'SNAIL'
-t_ESCARGO = r'ESCARGO'
-t_FOR=r'FOR'
-t_WHILE=r'WHILE'
-T_IF=r'IF'
-T_ELSE=r'ELSE'
-T_RETURN=r'RETURN'
-T_SLEEP=r'SLEEP'
-T_VAR=r'VAR'
-T_TRY=r'TRY'
-T_CATCH=r'CATCH'
-
-
+keyword_tokens = {v: v for v in keywords.values()}
 
 
 # Ignored characters
