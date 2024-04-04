@@ -120,7 +120,7 @@ class Snailz(Parser):
                   | expression MINUS expression
                   | expression TIMES expression
                   | expression DIVIDE expression
-                  | expression EXP expression
+                  | expression COMPEQU expression
         """
         p[0] = ASTNode(p[2], [p[1], p[3]])
 
@@ -140,6 +140,16 @@ class Snailz(Parser):
         'expression : NAME'
         p[0] = ASTNode('variable', value=p[1])
 
+    def p_expression_comp(self, p):
+        """
+        expression : expression AND expression
+                   | expression OR expression
+                   | expression GR8R expression
+                   | expression LES expression
+                   | NOT expression
+        """
+        p[0] = ASTNode(p[2], [p[1], p[3]])
+
     def p_error(self, p):
         if p:
             print("Syntax error at '%s'" % p.value)
@@ -153,6 +163,7 @@ class Snailz(Parser):
             print(' ' * (indent + 2) + str(node.value))
         for child in node.children:
             self.print_ast(child, indent + 2)
+
 
 if __name__ == '__main__':
     snailz = Snailz()
