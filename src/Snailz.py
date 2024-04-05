@@ -1,7 +1,7 @@
 from ply import lex
 from ply import yacc
 import os
-
+import random
 
 class ASTNode:
     def __init__(self, type, children=None, value=None):
@@ -99,6 +99,17 @@ class Snailz(Parser):
     def t_newline(self, t):
         r'\n+'
         t.lexer.lineno += t.value.count("\n")
+    
+    def bogo_sort(self, lst):
+        # Bogo sort implementation (not efficient, for demonstration purposes only)
+        while not self.is_sorted(lst):
+            random.shuffle(lst)
+        return lst
+    
+
+    def is_sorted(self, lst):
+        # Check if a list is sorted
+        return all(lst[i] <= lst[i+1] for i in range(len(lst)-1))
 
     def t_error(self, t):
         print("Illegal character '%s'" % t.value[0])
@@ -132,7 +143,6 @@ class Snailz(Parser):
         # Add logic for other expression types (comparison, negation, etc.)
         else:
             raise Exception(f"Unknown node type: {node.type}")
-
 
     precedence = (
         ('nonassoc', 'LBRA', 'RBRA'),  # Brackets have the highest precedence
@@ -239,6 +249,28 @@ class Snailz(Parser):
             p[0] = [p[1]]
         else:
             p[0] = p[1] + [p[3]]
+
+    def p_expression_bogo_sort(self, p):
+        """
+        expression : expression SORT expression
+        """
+        # Get the list to be sorted and its assigned name
+        unsorted_list = self.eval(p[1])
+        print("Type of unsorted_list:", type(unsorted_list))
+        assigned_name = p[3].value
+
+        # Perform Bogo sort
+        sorted_list = self.bogo_sort(unsorted_list)
+
+        # Create an AST node for the sorted list
+        sorted_list_node = ASTNode('list', children=sorted_list)
+
+        # Assign the sorted list AST node to the variable name in the symbol table
+        self.symbol_table[assigned_name] = sorted_list_node
+
+        # Create an AST node for the assignment statement
+        p[0] = ASTNode('assignment', [ASTNode('variable', value=assigned_name), sorted_list_node])
+
 
     def p_error(self, p):
         if p:
