@@ -58,7 +58,7 @@ class Parser:
 class Snailz(Parser):
     
     tokens =  ('PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
-           'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM', 'QUOTE',
+           'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
            'NOT', 'EXP')
    
@@ -75,7 +75,6 @@ class Snailz(Parser):
     t_LBRA = r'\['
     t_RBRA = r'\]'
     t_COM = r'\,'
-    t_QUOTE = r'\"|\''
     t_COMPEQU = r'\=='
     t_EQUALS = r'\='
     t_LES = r'\<'
@@ -96,6 +95,8 @@ class Snailz(Parser):
 
     t_ignore = " \t"
 
+    # t_ignore_WHITESPACE = r'\s+' # allows for both 3>2 and 3 > 2 to work but doesnt reconize token in second one
+
     def t_newline(self, t):
         r'\n+'
         t.lexer.lineno += t.value.count("\n")
@@ -114,6 +115,8 @@ class Snailz(Parser):
     def t_error(self, t):
         print("Illegal character '%s'" % t.value[0])
         t.lexer.skip(1)
+
+    
 
     def eval(self, node):
         if node.type == 'number':
@@ -135,26 +138,45 @@ class Snailz(Parser):
                 return left_val * right_val
             elif node.type == '/':
                 return left_val / right_val  # Handle division by zero
-        elif node.type == 'comma':
-            # Handle comma as concatenation or list creation, depending on your language semantics
+        elif node.type == 'GR8R':
             left_val = self.eval(node.children[0])
             right_val = self.eval(node.children[1])
-            return f"{left_val}, {right_val}"  # Example: Concatenate strings with a comma
+            return left_val > right_val
+        elif node.type == 'LES':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val < right_val
+        elif node.type == 'COMPEQU':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val == right_val
+        elif node.type == 'NOT':
+            operand_val = self.eval(node.children[0])
+            return not operand_val
+        elif node.type == 'AND':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val and right_val
+        elif node.type == 'OR':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val or right_val
         # Add logic for other expression types (comparison, negation, etc.)
         else:
             raise Exception(f"Unknown node type: {node.type}")
+    
 
     precedence = (
-        ('nonassoc', 'LBRA', 'RBRA'),  # Brackets have the highest precedence
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'TIMES', 'DIVIDE'),
-        ('right', 'EXP'),
-        ('left', 'MOD'),
-        ('left', 'GR8R', 'LES', 'COMPEQU'),
-        ('left', 'AND', 'OR'),
-        ('right', 'NOT'),
-        ('right', 'UMINUS'),
-    )
+            ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
+            ('left', 'AND', 'OR'),
+            ('right', 'NOT'),
+            ('left', 'PLUS', 'MINUS'),
+            ('left', 'TIMES', 'DIVIDE'),
+            ('right', 'EXP'),
+            ('left', 'MOD'),
+            ('right', 'UMINUS'),
+            ('nonassoc', 'LBRA', 'RBRA'),
+        )
 
     def p_statement_assign(self, p):
         'statement : NAME EQUALS expression'
@@ -205,16 +227,23 @@ class Snailz(Parser):
         """
         p[0] = ASTNode('mod', [p[1], p[3]])
 
-    def p_expression_comp(self, p):
+    def p_expression_gr8r(self, p):
         """
         expression : expression GR8R expression
-                   | expression LES expression
-                   | expression COMPEQU expression
-                   | expression NOT expression
-                   | expression AND expression
-                   | expression OR expression
         """
-        p[0] = ASTNode(p[2], [p[1], p[3]])
+        p[0] = ASTNode('GR8R', [p[1], p[3]])
+
+    def p_expression_les(self, p):
+        """
+        expression : expression LES expression
+        """
+        p[0] = ASTNode('LES', [p[1], p[3]])
+
+    def p_expression_compequ(self, p):
+        """
+        expression : expression COMPEQU expression
+        """
+        p[0] = ASTNode('COMPEQU', [p[1], p[3]])
 
     def p_expression_lbra(self, p):
         """
@@ -271,7 +300,24 @@ class Snailz(Parser):
         # Create an AST node for the assignment statement
         p[0] = ASTNode('assignment', [ASTNode('variable', value=assigned_name), sorted_list_node])
 
+    def p_expression_and(self, p):
+        """
+        expression : expression AND expression
+        """
+        p[0] = ASTNode('AND', [p[1], p[3]])
 
+    def p_expression_or(self, p):
+        """
+        expression : expression OR expression
+        """
+        p[0] = ASTNode('OR', [p[1], p[3]])
+
+    def p_expression_not(self, p):
+        """
+        expression : NOT expression
+        """
+        p[0] = ASTNode('NOT', [p[2]])
+        
     def p_error(self, p):
         if p:
             print("Syntax error at '%s'" % p.value)
