@@ -2,11 +2,13 @@ from ply import lex
 from ply import yacc
 import os
 
+
 class ASTNode:
     def __init__(self, type, children=None, value=None):
         self.type = type
         self.children = children if children else []
         self.value = value
+
 
 class Parser:
     """
@@ -14,10 +16,13 @@ class Parser:
     """
     tokens = ()
     precedence = ()
+  
+    symbol_table = {}
 
     def __init__(self, **kw):
         self.debug = kw.get('debug', 0)
         self.names = {}
+        self.symbol_table = {}
         try:
             modname = os.path.split(os.path.splitext(__file__)[0])[
                 1] + "_" + self.__class__.__name__
@@ -42,15 +47,20 @@ class Parser:
                 continue
             self.parse_result = yacc.parse(s)
             if self.parse_result:
-                self.print_ast(self.parse_result)
+                # Print AST only for expression statements
+                if self.parse_result.type == 'statement_expr':
+                    self.print_ast(self.parse_result)
+                    print(f"Evaluated result: {self.parse_result.value}")
+                else:
+                    self.print_ast(self.parse_result)
 
 
 class Snailz(Parser):
     
     tokens =  ('PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM', 'QUOTE',
-           'PERIOD', 'SCOLN', 'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
-           'NOT', 'VAR', 'EXP')
+            'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
+           'NOT', 'EXP')
    
     t_PLUS = r'\+'
     t_MINUS = r'-'
@@ -66,15 +76,12 @@ class Snailz(Parser):
     t_RBRA = r'\]'
     t_COM = r'\,'
     t_QUOTE = r'\"|\''
-    t_PERIOD = r'\.'
-    t_SCOLN = r'\;'
     t_COMPEQU = r'\=='
     t_EQUALS = r'\='
     t_LES = r'\<'
     t_MOD = r'\%'
     t_SORT = r'\>>'
     t_NOT = r'\!'
-    t_VAR = r'[\w]+'
     t_EXP = r'\^'
 
     def t_NUMBER(self, t):
@@ -97,22 +104,59 @@ class Snailz(Parser):
         print("Illegal character '%s'" % t.value[0])
         t.lexer.skip(1)
 
-    # Parsing rules
+    def eval(self, node):
+        if node.type == 'number':
+            return node.value
+        elif node.type == 'variable':
+            # Lookup variable value from symbol table
+            if node.value in self.symbol_table:
+                return self.symbol_table[node.value]
+            else:
+                raise Exception(f"Variable '{node.value}' not defined")
+        elif node.type in ('+', '-', '*', '/'):
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            if node.type == '+':
+                return left_val + right_val
+            elif node.type == '-':
+                return left_val - right_val
+            elif node.type == '*':
+                return left_val * right_val
+            elif node.type == '/':
+                return left_val / right_val  # Handle division by zero
+        elif node.type == 'comma':
+            # Handle comma as concatenation or list creation, depending on your language semantics
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return f"{left_val}, {right_val}"  # Example: Concatenate strings with a comma
+        # Add logic for other expression types (comparison, negation, etc.)
+        else:
+            raise Exception(f"Unknown node type: {node.type}")
+
 
     precedence = (
+        ('nonassoc', 'LBRA', 'RBRA'),  # Brackets have the highest precedence
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIVIDE'),
-        ('left', 'EXP'),
+        ('right', 'EXP'),
+        ('left', 'MOD'),
+        ('left', 'GR8R', 'LES', 'COMPEQU'),
+        ('left', 'AND', 'OR'),
+        ('right', 'NOT'),
         ('right', 'UMINUS'),
     )
 
     def p_statement_assign(self, p):
         'statement : NAME EQUALS expression'
+        # Store the variable and its value in the symbol table
+        self.symbol_table[p[1]] = self.eval(p[3])
         p[0] = ASTNode('assignment', [ASTNode('variable', value=p[1]), p[3]])
 
     def p_statement_expr(self, p):
-        'statement : expression'
-        p[0] = p[1]
+        '''statement : expression'''
+        # Evaluate the expression and store the value
+        result = self.eval(p[1])
+        p[0] = ASTNode('statement_expr', children=[p[1]], value=result)
 
     def p_expression_binop(self, p):
         """
@@ -120,7 +164,6 @@ class Snailz(Parser):
                   | expression MINUS expression
                   | expression TIMES expression
                   | expression DIVIDE expression
-                  | expression COMPEQU expression
         """
         p[0] = ASTNode(p[2], [p[1], p[3]])
 
@@ -140,15 +183,62 @@ class Snailz(Parser):
         'expression : NAME'
         p[0] = ASTNode('variable', value=p[1])
 
+    def p_expression_exp(self, p):
+        """
+        expression : expression EXP expression
+        """
+        p[0] = ASTNode('exp', [p[1], p[3]])
+
+    def p_expression_mod(self, p):
+        """
+        expression : expression MOD expression
+        """
+        p[0] = ASTNode('mod', [p[1], p[3]])
+
     def p_expression_comp(self, p):
         """
-        expression : expression AND expression
-                   | expression OR expression
-                   | expression GR8R expression
+        expression : expression GR8R expression
                    | expression LES expression
-                   | NOT expression
+                   | expression COMPEQU expression
+                   | expression NOT expression
+                   | expression AND expression
+                   | expression OR expression
         """
         p[0] = ASTNode(p[2], [p[1], p[3]])
+
+    def p_expression_lbra(self, p):
+        """
+        expression : LBRA expression RBRA
+        """
+        p[0] = p[2]
+
+    def p_expression_rbra(self, p):
+        """
+        expression : RBRA expression RBRA
+        """
+        p[0] = p[2]
+
+    def p_expression_comma(self, p):
+        """
+        expression : expression COM expression
+        """
+        p[0] = ASTNode('comma', [p[1], p[3]])
+
+    def p_expression_list(self, p):
+        """
+        expression : LBRA list_elements RBRA
+        """
+        p[0] = ASTNode('list', children=p[2])
+
+    def p_list_elements(self, p):
+        """
+        list_elements : expression
+                      | list_elements COM expression
+        """
+        if len(p) == 2:
+            p[0] = [p[1]]
+        else:
+            p[0] = p[1] + [p[3]]
 
     def p_error(self, p):
         if p:
