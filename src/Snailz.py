@@ -161,13 +161,12 @@ class Snailz(Parser):
             left_val = self.eval(node.children[0])
             right_val = self.eval(node.children[1])
             return left_val or right_val
-        elif node.type == 'comma':
+        elif node.type == 'list':
             # Evaluate each expression within the comma-separated list
             return [self.eval(child) for child in node.children]
         # Add logic for other expression types (comparison, negation, etc.)
         else:
             raise Exception(f"Unknown node type: {node.type}")
-
     
 
     precedence = (
@@ -261,18 +260,12 @@ class Snailz(Parser):
         """
         p[0] = p[2]
 
-    def p_expression_comma(self, p):
-        """
-        expression : expression COM expression
-        """
-        p[0] = ASTNode('comma', [p[1], p[3]])
-
     def p_expression_list(self, p):
         """
         expression : LBRA list_elements RBRA
         """
         p[0] = ASTNode('list', children=p[2])
-
+    
     def p_list_elements(self, p):
         """
         list_elements : expression
@@ -281,7 +274,7 @@ class Snailz(Parser):
         if len(p) == 2:
             p[0] = [p[1]]
         else:
-            p[0] = p[1].children + [p[3]]
+            p[0] = p[1] + [p[3]]
 
     def p_expression_bogo_sort(self, p):
         """
