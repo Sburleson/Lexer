@@ -124,6 +124,14 @@ class Snailz(Parser):
     def eval(self, node):
         if node.type == 'number':
             return node.value
+        elif node.type == 'IF':
+            condition_result = self.eval(node.children[0])  # Evaluates the condition
+            print("Condition Result:", "True" if condition_result else "False")
+            if condition_result:
+                return self.eval(node.children[1])  # Execute if the condition is True
+            elif len(node.children) > 2:
+                return self.eval(node.children[2])  # Execute the else branch if it exists
+            return None
         elif node.type == 'assignment':
             # Store the variable and its value in the symbol table
             variable_name = node.children[0].value
@@ -176,36 +184,26 @@ class Snailz(Parser):
             # Evaluate each expression within the comma-separated list
             return [self.eval(child) for child in node.children]
         # Add logic for other expression types (comparison, negation, etc.)
-        elif node.type == 'IF':
-            condition_result = self.eval(node.children[0])
-            print("RES:",condition_result)
-            if condition_result:
-                # If the condition is true, evaluate the statement block
-                print("do this:",node.children[1])
-                return self.eval(node.children[1])
-            else:
-                # If the condition is false, return None or some other appropriate value
-                return None
         else:
             raise Exception(f"Unknown node type: {node.type}")
     
-
     precedence = (
-            ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
-            ('left', 'AND', 'OR'),
-            ('right', 'NOT'),
-            ('left', 'PLUS', 'MINUS'),
-            ('left', 'TIMES', 'DIVIDE'),
-            ('right', 'EXP'),
-            ('left', 'MOD'),
-            ('right', 'UMINUS'),
-            ('nonassoc', 'LBRA', 'RBRA'),
-        )
+        ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
+        ('left', 'AND', 'OR'),
+        ('right', 'NOT'),
+        ('left', 'PLUS', 'MINUS'),
+        ('left', 'TIMES', 'DIVIDE'),
+        ('right', 'EXP'),
+        ('left', 'MOD'),
+        ('right', 'UMINUS'),
+        ('right', 'IF', 'ELSE'),  # Added IF and ELSE here
+        ('nonassoc', 'LBRA', 'RBRA'),
+    )
 
     def p_statement_assign(self, p):
         'statement : NAME EQUALS expression'
         # Store the variable and its value in the symbol table
-        self.symbol_table[p[1]] = self.eval(p[3])
+        # a ###### self.symbol_table[p[1]] = self.eval(p[3])
         p[0] = ASTNode('assignment', [ASTNode('variable', value=p[1]), p[3]])
 
     def p_statement_expr(self, p):
@@ -340,8 +338,15 @@ class Snailz(Parser):
     def p_statement_if(self, p):
         """
         statement : IF expression statement
+                | IF expression statement ELSE statement
         """
-        p[0] = ASTNode('IF', children=[p[2], p[3]])
+        if len(p) == 4:
+            # No else branch
+            p[0] = ASTNode('IF', children=[p[2], p[3]])
+            print([p[2], p[3]])
+        else:
+            # Includes else branch
+            p[0] = ASTNode('IF', children=[p[2], p[3], p[5]])
             
 
     def p_statement_while(self, p):
