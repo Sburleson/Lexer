@@ -125,12 +125,9 @@ class Snailz(Parser):
         print("Illegal character '%s'" % t.value[0])
         t.lexer.skip(1)
 
-    
-
     def eval(self, node):
         if node.type == 'number':
             return node.value
-
         elif node.type == 'IF':
             condition_result = self.eval(node.children[0])  # Evaluates the condition
             print("Condition Result:", "True" if condition_result else "False")
@@ -139,6 +136,10 @@ class Snailz(Parser):
             elif len(node.children) > 2:
                 return self.eval(node.children[2])  # Execute the else branch if it exists
             return None
+        elif node.type == 'WHILE':
+            # Loop as long as the condition evaluates to True
+            while self.eval(node.children[0]):
+                self.eval(node.children[1])
         elif node.type == 'assignment':
             # Store the variable and its value in the symbol table
             variable_name = node.children[0].value
@@ -203,7 +204,7 @@ class Snailz(Parser):
         ('right', 'EXP'),
         ('left', 'MOD'),
         ('right', 'UMINUS'),
-        ('right', 'IF', 'ELSE'),  # Added IF and ELSE here
+        ('right', 'IF', 'ELSE', 'WHILE'),  # Include WHILE here if necessary
         ('nonassoc', 'LBRA', 'RBRA'),
     )
 
@@ -355,18 +356,17 @@ class Snailz(Parser):
             # Includes else branch
             p[0] = ASTNode('IF', children=[p[2], p[3], p[5]])
             
-
     def p_statement_while(self, p):
         """
         statement : WHILE LPAREN expression RPAREN statement
         """
-        p[0] = ('WHILE', p[3], p[5])
+        p[0] = ASTNode('WHILE', children=[p[3], p[5]])
 
     def p_statement_for(self, p):
         """
         statement : FOR LPAREN expression RPAREN statement
         """
-        p[0] = ('FOR', p[3], p[5])
+        p[0] = ASTNode('FOR', p[3], p[5])
 
     def p_error(self, p):
         if p:
