@@ -55,7 +55,7 @@ class Snailz(Parser):
            'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
            'NOT', 'EXP','IF','WHILE','FOR','ELSE')
-   
+
     t_PLUS = r'\+'
     t_MINUS = r'-'
     t_TIMES = r'\*'
@@ -88,7 +88,7 @@ class Snailz(Parser):
     
     def t_NAME(self, t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
-        if t.value in ('if', 'else', 'while'):  # Exclude 'if' and 'else' from being recognized as variable names
+        if t.value in ('if', 'else', 'while', 'for'):  # Exclude 'if' and 'else' from being recognized as variable names
             t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
 
@@ -128,6 +128,30 @@ class Snailz(Parser):
     def eval(self, node):
         if node.type == 'number':
             return node.value
+        elif node.type == 'WHILE':
+            # Loop as long as the condition evaluates to True
+            while self.eval(node.children[0]):
+                self.eval(node.children[1])
+        elif node.type == 'FOR':
+            # Unpack the children of the FOR node
+            init_expr, cond_expr, post_expr, loop_body = node.children
+            # 1. Initialization
+            if init_expr:
+                self.eval(init_expr)
+                print("Initial expression set.")
+            # 2. Condition check and loop execution
+            while True:
+                if cond_expr:
+                    condition = self.eval(cond_expr)
+                    print("Condition evaluated to:", condition)
+                    if not condition:
+                        break
+                # 3. Execute the loop body
+                if loop_body:
+                    self.eval(loop_body)
+                # 4. Post-expression
+                if post_expr:
+                    self.eval(post_expr)
         elif node.type == 'IF':
             condition_result = self.eval(node.children[0])  # Evaluates the condition
             print("Condition Result:", "True" if condition_result else "False")
@@ -136,10 +160,6 @@ class Snailz(Parser):
             elif len(node.children) > 2:
                 return self.eval(node.children[2])  # Execute the else branch if it exists
             return None
-        elif node.type == 'WHILE':
-            # Loop as long as the condition evaluates to True
-            while self.eval(node.children[0]):
-                self.eval(node.children[1])
         elif node.type == 'assignment':
             # Store the variable and its value in the symbol table
             variable_name = node.children[0].value
@@ -204,7 +224,7 @@ class Snailz(Parser):
         ('right', 'EXP'),
         ('left', 'MOD'),
         ('right', 'UMINUS'),
-        ('right', 'IF', 'ELSE', 'WHILE'),  # Include WHILE here if necessary
+        ('right', 'IF', 'ELSE', 'WHILE','FOR'),  # Include WHILE here if necessary
         ('nonassoc', 'LBRA', 'RBRA'),
     )
 
@@ -363,10 +383,8 @@ class Snailz(Parser):
         p[0] = ASTNode('WHILE', children=[p[3], p[5]])
 
     def p_statement_for(self, p):
-        """
-        statement : FOR LPAREN expression RPAREN statement
-        """
-        p[0] = ASTNode('FOR', p[3], p[5])
+        'statement : FOR LPAREN expression expression RPAREN statement'
+        p[0] = ASTNode('FOR', children=[p[3], p[5], p[7], p[9]])
 
     def p_error(self, p):
         if p:
