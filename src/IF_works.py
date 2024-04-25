@@ -62,7 +62,7 @@ class Snailz(Parser):
     t_DIVIDE = r'/'
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
-    t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+    #t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
     t_AND = r'\&'
     t_OR = r'\|'
     t_GR8R = r'\>'
@@ -84,6 +84,12 @@ class Snailz(Parser):
     def t_IF(self, t):
         r'if'
         #print("IF token detected")
+        return t
+    
+    def t_NAME(self, t):
+        r'[a-zA-Z_][a-zA-Z0-9_]*'
+        if t.value in ('if', 'else', 'while'):  # Exclude 'if' and 'else' from being recognized as variable names
+            t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
 
     def t_NUMBER(self, t):
@@ -124,6 +130,7 @@ class Snailz(Parser):
     def eval(self, node):
         if node.type == 'number':
             return node.value
+
         elif node.type == 'IF':
             condition_result = self.eval(node.children[0])  # Evaluates the condition
             print("Condition Result:", "True" if condition_result else "False")
