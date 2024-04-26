@@ -82,7 +82,7 @@ class Snailz(Parser):
     t_ELSE = r'else'
     t_SNAIL = r'snail'
     def t_PRINT(self, t):
-        r'print'
+        r'ThereneverisaslowerpaceThansnailscompetinginarace'
         return t
 
     def t_IF(self, t):
@@ -92,7 +92,7 @@ class Snailz(Parser):
     
     def t_NAME(self, t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
-        if t.value in ('if', 'else', 'while', 'for', 'snail', 'print'):  # Exclude 'if' and 'else' from being recognized as variable names
+        if t.value in ('if', 'else', 'while', 'for', 'snail', 'ThereneverisaslowerpaceThansnailscompetinginarace'):  # Exclude 'if' and 'else' from being recognized as variable names
             t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
 
