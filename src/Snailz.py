@@ -45,24 +45,16 @@ class Parser:
                 break
             if not s:
                 continue
-            self.parse_result = yacc.parse(s)
-            if self.parse_result:
-                # Print AST only for expression statements
-                if self.parse_result.type == 'statement_expr':
-                    self.print_ast(self.parse_result)
-                    print(f"Evaluated result: {self.parse_result.value}")
-                else:
-                    self.print_ast(self.parse_result)
-
-
+            parse_tree = yacc.parse(s)
+            if parse_tree:
+                self.print_ast(parse_tree)
+                self.eval(parse_tree)
 class Snailz(Parser):
     
-    tokens =  ('PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
+    tokens =  ('PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+           'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
-           'NOT', 'EXP', 'IF', 'ELSE', 'NAME', 'WHILE')
-    
-    
-   
+           'NOT', 'EXP','IF','WHILE','FOR','ELSE','SNAIL')
 
     t_PLUS = r'\+'
     t_MINUS = r'-'
@@ -70,7 +62,7 @@ class Snailz(Parser):
     t_DIVIDE = r'/'
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
-     # t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+    #t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
     t_AND = r'\&'
     t_OR = r'\|'
     t_GR8R = r'\>'
@@ -84,9 +76,22 @@ class Snailz(Parser):
     t_SORT = r'\>>'
     t_NOT = r'\!'
     t_EXP = r'\^'
-    t_IF = r'if'  # Matches 'if'
-    t_ELSE = r'else'  # Matches 'else'
-    t_WHILE = r'while' 
+    ##t_IF = r'if'
+    t_WHILE  = r'while'
+    t_FOR = r'for'
+    t_ELSE = r'else'
+    t_SNAIL = r'snail'
+
+    def t_IF(self, t):
+        r'if'
+        #print("IF token detected")
+        return t
+    
+    def t_NAME(self, t):
+        r'[a-zA-Z_][a-zA-Z0-9_]*'
+        if t.value in ('if', 'else', 'while', 'for','snail'):  # Exclude 'if' and 'else' from being recognized as variable names
+            t.type = t.value.upper()   # Convert keyword to uppercase to match token type
+        return t
 
     def t_NUMBER(self, t):
         r'\d+'
@@ -96,12 +101,6 @@ class Snailz(Parser):
             print("Integer value too large %s" % t.value)
             t.value = 0
         # print "parsed number %s" % repr(t.value)
-        return t
-    
-    def t_NAME(self, t):
-        r'[a-zA-Z_][a-zA-Z0-9_]*'
-        if t.value in ('if', 'else', 'while'):  # Exclude 'if' and 'else' from being recognized as variable names
-            t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
 
     t_ignore = " \t"
@@ -127,11 +126,41 @@ class Snailz(Parser):
         print("Illegal character '%s'" % t.value[0])
         t.lexer.skip(1)
 
-    
-
     def eval(self, node):
         if node.type == 'number':
             return node.value
+        elif node.type == 'WHILE':
+            # Loop as long as the condition evaluates to True
+            while self.eval(node.children[0]):
+                self.eval(node.children[1])
+        elif node.type == 'FOR':
+            # Unpack the children of the FOR node
+            while self.eval(node.children[0]):
+                self.eval(node.children[1])
+                self.eval(node.children[2])
+        
+        elif node.type == 'SNAIL':
+            snail = 1000
+            while(snail>0):
+                print("SNAILZ")
+                snail = snail-1
+            
+        elif node.type == 'IF':
+            condition_result = self.eval(node.children[0])  # Evaluates the condition
+            print("Condition Result:", "True" if condition_result else "False")
+            if condition_result:
+                return self.eval(node.children[1])  # Execute if the condition is True
+            elif len(node.children) > 2:
+                return self.eval(node.children[2])  # Execute the else branch if it exists
+            return None
+        elif node.type == 'assignment':
+            # Store the variable and its value in the symbol table
+            variable_name = node.children[0].value
+            expression_result = self.eval(node.children[1])
+            self.symbol_table[variable_name] = expression_result
+        elif node.type == 'statement_expr':
+            # Evaluate the expression and return the result
+            return self.eval(node.children[0])
         elif node.type == 'variable':
             # Lookup variable value from symbol table
             if node.value in self.symbol_table:
@@ -153,53 +182,49 @@ class Snailz(Parser):
             left_val = self.eval(node.children[0])
             right_val = self.eval(node.children[1])
             return left_val > right_val
-        # Handle other comparison operators similarly
-        elif node.type == 'IF':
-            condition = self.eval(node.children[0])
-            if condition:
-                # Evaluate the code block inside the if statement
-                return self.eval(node.children[1])
-            # If condition is not met, return None
-            return None
-        elif node.type == 'ELSE':
-            # Evaluate the code block inside the else statement
-            return self.eval(node.children[0])
-        elif node.type == 'ELSE_IF':
-            condition = self.eval(node.children[0])
-            if condition:
-                # Evaluate the code block inside the else if statement
-                return self.eval(node.children[1])
-            # If condition is not met, evaluate the remaining else if statements
-            return self.eval(node.children[2])
-        elif node.type == 'while_statement':
-            while self.eval(node.children[0]):
-                self.eval(node.children[1])
-            return None 
+        elif node.type == 'LES':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val < right_val
+        elif node.type == 'COMPEQU':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val == right_val
+        elif node.type == 'NOT':
+            operand_val = self.eval(node.children[0])
+            return not operand_val
+        elif node.type == 'AND':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val and right_val
+        elif node.type == 'OR':
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            return left_val or right_val
         elif node.type == 'list':
             # Evaluate each expression within the comma-separated list
             return [self.eval(child) for child in node.children]
-        # Add logic for other expression types (negation, logical operators, etc.)
+        # Add logic for other expression types (comparison, negation, etc.)
         else:
             raise Exception(f"Unknown node type: {node.type}")
-
     
-
     precedence = (
-            ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
-            ('left', 'AND', 'OR'),
-            ('right', 'NOT'),
-            ('left', 'PLUS', 'MINUS'),
-            ('left', 'TIMES', 'DIVIDE'),
-            ('right', 'EXP'),
-            ('left', 'MOD'),
-            ('right', 'UMINUS'),
-            ('nonassoc', 'LBRA', 'RBRA'),
-        )
+        ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
+        ('left', 'AND', 'OR'),
+        ('right', 'NOT'),
+        ('left', 'PLUS', 'MINUS'),
+        ('left', 'TIMES', 'DIVIDE'),
+        ('right', 'EXP'),
+        ('left', 'MOD'),
+        ('right', 'UMINUS'),
+        ('right', 'IF', 'ELSE', 'WHILE','FOR'),  # Include WHILE here if necessary
+        ('nonassoc', 'LBRA', 'RBRA'),
+    )
 
     def p_statement_assign(self, p):
         'statement : NAME EQUALS expression'
         # Store the variable and its value in the symbol table
-        self.symbol_table[p[1]] = self.eval(p[3])
+        # a ###### self.symbol_table[p[1]] = self.eval(p[3])
         p[0] = ASTNode('assignment', [ASTNode('variable', value=p[1]), p[3]])
 
     def p_statement_expr(self, p):
@@ -329,28 +354,44 @@ class Snailz(Parser):
         expression : NOT expression
         """
         p[0] = ASTNode('NOT', [p[2]])
-        
-    def p_error(self, p):
-        if p:
-            print("Syntax error at '%s'" % p.value)
-        else:
-            print("Syntax error at EOF")
 
-    def p_statement_if_else(self, p):
+     # Grammar rules
+    def p_statement_if(self, p):
         """
         statement : IF expression statement
                 | IF expression statement ELSE statement
         """
         if len(p) == 4:
-            p[0] = ASTNode('if_statement', children=[p[2], p[3]])
+            # No else branch
+            p[0] = ASTNode('IF', children=[p[2], p[3]])
+            print([p[2], p[3]])
         else:
-            p[0] = ASTNode('if_else_statement', children=[p[2], p[3], p[5]])
-
+            # Includes else branch
+            p[0] = ASTNode('IF', children=[p[2], p[3], p[5]])
+            
     def p_statement_while(self, p):
         """
-        statement : WHILE expression statement
+        statement : WHILE LPAREN expression RPAREN statement
         """
-        p[0] = ASTNode('while_statement', children=[p[2], p[3]])
+        p[0] = ASTNode('WHILE', children=[p[3], p[5]])
+    
+    def p_statement_snail(self,p):
+        """
+        statement : SNAIL
+        """
+        p[0] = ASTNode('SNAIL')
+
+    def p_statement_for(self, p):
+        """
+        statement : FOR LPAREN expression statement RPAREN statement
+        """
+        p[0] = ASTNode('FOR', children=[p[3], p[4], p[6]])
+
+    def p_error(self, p):
+        if p:
+            print("Syntax error at '%s'" % p.value)
+        else:
+            print("Syntax error at EOF")
 
     # Method to print the AST
     def print_ast(self, node, indent=0):
