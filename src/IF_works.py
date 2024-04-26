@@ -134,24 +134,10 @@ class Snailz(Parser):
                 self.eval(node.children[1])
         elif node.type == 'FOR':
             # Unpack the children of the FOR node
-            init_expr, cond_expr, post_expr, loop_body = node.children
-            # 1. Initialization
-            if init_expr:
-                self.eval(init_expr)
-                print("Initial expression set.")
-            # 2. Condition check and loop execution
-            while True:
-                if cond_expr:
-                    condition = self.eval(cond_expr)
-                    print("Condition evaluated to:", condition)
-                    if not condition:
-                        break
-                # 3. Execute the loop body
-                if loop_body:
-                    self.eval(loop_body)
-                # 4. Post-expression
-                if post_expr:
-                    self.eval(post_expr)
+            while self.eval(node.children[0]):
+                self.eval(node.children[1])
+                self.eval(node.children[2])
+            
         elif node.type == 'IF':
             condition_result = self.eval(node.children[0])  # Evaluates the condition
             print("Condition Result:", "True" if condition_result else "False")
@@ -383,8 +369,10 @@ class Snailz(Parser):
         p[0] = ASTNode('WHILE', children=[p[3], p[5]])
 
     def p_statement_for(self, p):
-        'statement : FOR LPAREN expression expression RPAREN statement'
-        p[0] = ASTNode('FOR', children=[p[3], p[5], p[7], p[9]])
+        """
+        statement : FOR LPAREN expression statement RPAREN statement
+        """
+        p[0] = ASTNode('FOR', children=[p[3], p[4], p[6]])
 
     def p_error(self, p):
         if p:
