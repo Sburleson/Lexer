@@ -51,7 +51,7 @@ class Parser:
                 self.eval(parse_tree)
 class Snailz(Parser):
     
-    tokens =  ('PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+    tokens =  ('PRINT','PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
            'NOT', 'EXP','IF','WHILE','FOR','ELSE','SNAIL')
@@ -81,6 +81,9 @@ class Snailz(Parser):
     t_FOR = r'for'
     t_ELSE = r'else'
     t_SNAIL = r'snail'
+    def t_PRINT(self, t):
+        r'print'
+        return t
 
     def t_IF(self, t):
         r'if'
@@ -89,7 +92,7 @@ class Snailz(Parser):
     
     def t_NAME(self, t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
-        if t.value in ('if', 'else', 'while', 'for','snail'):  # Exclude 'if' and 'else' from being recognized as variable names
+        if t.value in ('if', 'else', 'while', 'for', 'snail', 'print'):  # Exclude 'if' and 'else' from being recognized as variable names
             t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
 
@@ -117,7 +120,6 @@ class Snailz(Parser):
             random.shuffle(lst)
         return lst
     
-
     def is_sorted(self, lst):
         # Check if a list is sorted
         return all(lst[i] <= lst[i+1] for i in range(len(lst)-1))
@@ -205,6 +207,11 @@ class Snailz(Parser):
             # Evaluate each expression within the comma-separated list
             return [self.eval(child) for child in node.children]
         # Add logic for other expression types (comparison, negation, etc.)
+        elif node.type == 'print':
+            # Evaluate the expression inside the print statement
+            print_value = self.eval(node.children[0])
+            print(print_value)  # Print the result
+            return None 
         else:
             raise Exception(f"Unknown node type: {node.type}")
     
@@ -386,6 +393,10 @@ class Snailz(Parser):
         statement : FOR LPAREN expression statement RPAREN statement
         """
         p[0] = ASTNode('FOR', children=[p[3], p[4], p[6]])
+
+    def p_statement_print(self, p):
+        'statement : PRINT LPAREN expression RPAREN'
+        p[0] = ASTNode('print', children=[p[3]])
 
     def p_error(self, p):
         if p:
