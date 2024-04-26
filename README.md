@@ -1,4 +1,4 @@
-# Lexer
+# How to run
 How to Run the Snailz Interpreter
 To run the Snailz interpreter, you'll need Python installed on your system. Here are the steps to get it up and running:
 
@@ -17,7 +17,9 @@ Copy code
 python snailz.py
 You should see a prompt snailz > where you can start typing your Snailz language commands.
 Basic Syntax and Example Code
-Snailz is a simple scripting language that supports basic arithmetic operations, logical operations, and control structures. Here's a brief overview of the syntax along with some example code:
+Snailz is a simple scripting language that supports basic arithmetic operations, logical operations, and control structures. 
+# Syntax overview
+Here's a brief overview of the syntax along with some example code:
 
 Variables and Assignments:
 snailz
