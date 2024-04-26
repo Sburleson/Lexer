@@ -171,6 +171,13 @@ class Snailz(Parser):
                 return left_val * right_val
             elif node.type == '/':
                 return left_val / right_val  # Handle division by zero
+        elif node.type == 'mod':
+            # Evaluate both sides of the modulus operation
+            left_val = self.eval(node.children[0])
+            right_val = self.eval(node.children[1])
+            # Return the result of the modulus operation
+            print(left_val % right_val)
+            return left_val % right_val
         elif node.type == 'GR8R':
             left_val = self.eval(node.children[0])
             right_val = self.eval(node.children[1])
@@ -198,6 +205,15 @@ class Snailz(Parser):
             # Evaluate each expression within the comma-separated list
             return [self.eval(child) for child in node.children]
         # Add logic for other expression types (comparison, negation, etc.)
+        elif node.type == 'sort':
+            # Assume the child node is a variable containing the list
+            list_var_name = node.children[0].value
+            if list_var_name in self.symbol_table:
+                unsorted_list = self.symbol_table[list_var_name]
+                sorted_list = self.bogo_sort(unsorted_list)
+                return sorted_list
+            else:
+                raise Exception(f"Variable '{list_var_name}' not defined")
         else:
             raise Exception(f"Unknown node type: {node.type}")
     
@@ -309,26 +325,11 @@ class Snailz(Parser):
         else:
             p[0] = p[1] + [p[3]]
 
-    def p_expression_bogo_sort(self, p):
-        """
-        expression : expression SORT expression
-        """
-        # Get the list to be sorted and its assigned name
-        unsorted_list = self.eval(p[1])
-        print("Type of unsorted_list:", type(unsorted_list))
-        assigned_name = p[3].value
+    def p_expression_sort(self, p):
+        'expression : SORT LPAREN expression RPAREN'
+        # Here, we create a sort node with the inner expression as a child
+        p[0] = ASTNode('sort', [p[3]])
 
-        # Perform Bogo sort
-        sorted_list = self.bogo_sort(unsorted_list)
-
-        # Create an AST node for the sorted list
-        sorted_list_node = ASTNode('list', children=sorted_list)
-
-        # Assign the sorted list AST node to the variable name in the symbol table
-        self.symbol_table[assigned_name] = sorted_list_node
-
-        # Create an AST node for the assignment statement
-        p[0] = ASTNode('assignment', [ASTNode('variable', value=assigned_name), sorted_list_node])
 
     def p_expression_and(self, p):
         """
