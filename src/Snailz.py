@@ -132,6 +132,9 @@ class Snailz(Parser):
     def eval(self, node):
         if node.type == 'number':
             return node.value
+        elif node.type == 'uminus':  # Handle unary negation
+            operand_val = self.eval(node.children[0])
+            return -operand_val  # Return the negation of the operand value
         elif node.type == 'WHILE':
             # Loop as long as the condition evaluates to True
             while self.eval(node.children[0]):
@@ -266,8 +269,6 @@ class Snailz(Parser):
     def p_expression_uminus(self, p):
         'expression : MINUS expression %prec UMINUS'
         p[0] = ASTNode('uminus', [p[2]])
-
-    
 
     def p_expression_group(self, p):
         'expression : LPAREN expression RPAREN'
