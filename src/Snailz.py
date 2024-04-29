@@ -51,7 +51,7 @@ class Parser:
                 self.eval(parse_tree)
 class Snailz(Parser):
     
-    tokens =  ('PRINT','PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+    tokens =  ('PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
            'NOT', 'EXP','IF','WHILE','FOR','ELSE','SNAIL')
@@ -81,9 +81,6 @@ class Snailz(Parser):
     t_FOR = r'for'
     t_ELSE = r'else'
     t_SNAIL = r'snail'
-    def t_PRINT(self, t):
-        r'ThereneverisaslowerpaceThansnailscompetinginarace'
-        return t
 
     def t_IF(self, t):
         r'if'
@@ -92,7 +89,7 @@ class Snailz(Parser):
     
     def t_NAME(self, t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
-        if t.value in ('if', 'else', 'while', 'for', 'snail', 'ThereneverisaslowerpaceThansnailscompetinginarace'):  # Exclude 'if' and 'else' from being recognized as variable names
+        if t.value in ('if', 'else', 'while', 'for','snail'):  # Exclude 'if' and 'else' from being recognized as variable names
             t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
 
@@ -120,6 +117,7 @@ class Snailz(Parser):
             random.shuffle(lst)
         return lst
     
+
     def is_sorted(self, lst):
         # Check if a list is sorted
         return all(lst[i] <= lst[i+1] for i in range(len(lst)-1))
@@ -207,11 +205,15 @@ class Snailz(Parser):
             # Evaluate each expression within the comma-separated list
             return [self.eval(child) for child in node.children]
         # Add logic for other expression types (comparison, negation, etc.)
-        elif node.type == 'print':
-            # Evaluate the expression inside the print statement
-            print_value = self.eval(node.children[0])
-            print(print_value)  # Print the result
-            return None 
+        elif node.type == 'sort':
+            # Assume the child node is a variable containing the list
+            list_var_name = node.children[0].value
+            if list_var_name in self.symbol_table:
+                unsorted_list = self.symbol_table[list_var_name]
+                sorted_list = self.bogo_sort(unsorted_list)
+                return sorted_list
+            else:
+                raise Exception(f"Variable '{list_var_name}' not defined")
         else:
             raise Exception(f"Unknown node type: {node.type}")
     
@@ -323,26 +325,11 @@ class Snailz(Parser):
         else:
             p[0] = p[1] + [p[3]]
 
-    def p_expression_bogo_sort(self, p):
-        """
-        expression : expression SORT expression
-        """
-        # Get the list to be sorted and its assigned name
-        unsorted_list = self.eval(p[1])
-        print("Type of unsorted_list:", type(unsorted_list))
-        assigned_name = p[3].value
+    def p_expression_sort(self, p):
+        'expression : SORT LPAREN expression RPAREN'
+        # Here, we create a sort node with the inner expression as a child
+        p[0] = ASTNode('sort', [p[3]])
 
-        # Perform Bogo sort
-        sorted_list = self.bogo_sort(unsorted_list)
-
-        # Create an AST node for the sorted list
-        sorted_list_node = ASTNode('list', children=sorted_list)
-
-        # Assign the sorted list AST node to the variable name in the symbol table
-        self.symbol_table[assigned_name] = sorted_list_node
-
-        # Create an AST node for the assignment statement
-        p[0] = ASTNode('assignment', [ASTNode('variable', value=assigned_name), sorted_list_node])
 
     def p_expression_and(self, p):
         """
@@ -394,10 +381,6 @@ class Snailz(Parser):
         """
         p[0] = ASTNode('FOR', children=[p[3], p[4], p[6]])
 
-    def p_statement_print(self, p):
-        'statement : PRINT LPAREN expression RPAREN'
-        p[0] = ASTNode('print', children=[p[3]])
-
     def p_error(self, p):
         if p:
             print("Syntax error at '%s'" % p.value)
@@ -420,3 +403,4 @@ if __name__ == '__main__':
     # After parsing, print the AST
     ast_root = snailz.parse_result
     snailz.print_ast(ast_root)
+
