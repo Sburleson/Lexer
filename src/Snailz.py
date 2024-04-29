@@ -47,7 +47,7 @@ class Parser:
                 continue
             parse_tree = yacc.parse(s)
             if parse_tree:
-                self.print_ast(parse_tree)
+                # self.print_ast(parse_tree)
                 self.eval(parse_tree)
 class Snailz(Parser):
     
@@ -150,7 +150,7 @@ class Snailz(Parser):
             
         elif node.type == 'IF':
             condition_result = self.eval(node.children[0])  # Evaluates the condition
-            print("Condition Result:", "True" if condition_result else "False")
+            # print("Condition Result:", "True" if condition_result else "False")
             if condition_result:
                 return self.eval(node.children[1])  # Execute if the condition is True
             elif len(node.children) > 2:
@@ -364,7 +364,6 @@ class Snailz(Parser):
         if len(p) == 4:
             # No else branch
             p[0] = ASTNode('IF', children=[p[2], p[3]])
-            print([p[2], p[3]])
         else:
             # Includes else branch
             p[0] = ASTNode('IF', children=[p[2], p[3], p[5]])
@@ -399,12 +398,12 @@ class Snailz(Parser):
             print("Syntax error at EOF")
 
     # Method to print the AST
-    def print_ast(self, node, indent=0):
-        print(' ' * indent + node.type)
-        if node.value is not None:
-            print(' ' * (indent + 2) + str(node.value))
-        for child in node.children:
-            self.print_ast(child, indent + 2)
+    # def print_ast(self, node, indent=0):
+        # print(' ' * indent + node.type)
+        # if node.value is not None:
+           # print(' ' * (indent + 2) + str(node.value))
+       # for child in node.children:
+            # self.print_ast(child, indent + 2)
 
 
 if __name__ == '__main__':
