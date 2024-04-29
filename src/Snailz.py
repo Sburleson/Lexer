@@ -181,6 +181,12 @@ class Snailz(Parser):
                 return left_val * right_val
             elif node.type == '/':
                 return left_val / right_val  # Handle division by zero
+        elif node.type == 'exp':
+            # Evaluate the exponentiation operation
+            base = self.eval(node.children[0])
+            exponent = self.eval(node.children[1])
+            result = base ** exponent
+            return result
         elif node.type == 'GR8R':
             left_val = self.eval(node.children[0])
             right_val = self.eval(node.children[1])
@@ -224,16 +230,16 @@ class Snailz(Parser):
             raise Exception(f"Unknown node type: {node.type}")
     
     precedence = (
-        ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
-        ('left', 'AND', 'OR'),
-        ('right', 'NOT'),
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'TIMES', 'DIVIDE'),
-        ('right', 'EXP'),
-        ('left', 'MOD'),
-        ('right', 'UMINUS'),
-        ('right', 'IF', 'ELSE', 'WHILE','FOR'),  # Include WHILE here if necessary
-        ('nonassoc', 'LBRA', 'RBRA'),
+    ('nonassoc', 'GR8R', 'LES', 'COMPEQU'),
+    ('left', 'AND', 'OR'),
+    ('right', 'NOT'),
+    ('left', 'PLUS', 'MINUS'),
+    ('right', 'EXP'),  # Exponentiation
+    ('left', 'TIMES', 'DIVIDE'),
+    ('left', 'MOD'),
+    ('right', 'UMINUS'),
+    ('right', 'IF', 'ELSE', 'WHILE', 'FOR'),  # Include WHILE here if necessary
+    ('nonassoc', 'LBRA', 'RBRA'),
     )
 
     def p_statement_assign(self, p):
@@ -260,6 +266,8 @@ class Snailz(Parser):
     def p_expression_uminus(self, p):
         'expression : MINUS expression %prec UMINUS'
         p[0] = ASTNode('uminus', [p[2]])
+
+    
 
     def p_expression_group(self, p):
         'expression : LPAREN expression RPAREN'
