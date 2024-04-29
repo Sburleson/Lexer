@@ -51,7 +51,7 @@ class Parser:
                 self.eval(parse_tree)
 class Snailz(Parser):
     
-    tokens =  ('PRINT','PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
+    tokens =  ('TRUE', 'FALSE', 'PRINT','PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
            'NOT', 'EXP','IF','WHILE','FOR','ELSE','SNAIL')
@@ -84,7 +84,16 @@ class Snailz(Parser):
     def t_PRINT(self, t):
         r'ThereneverisaslowerpaceThansnailscompetinginarace'
         return t
+    
+    def t_TRUE(self, t):
+        r'True'
+        t.value = True
+        return t
 
+    def t_FALSE(self, t):
+        r'False'
+        t.value = False
+        return t
     def t_IF(self, t):
         r'if'
         #print("IF token detected")
@@ -132,6 +141,8 @@ class Snailz(Parser):
     def eval(self, node):
         if node.type == 'number':
             return node.value
+        elif node.type == 'boolean':
+            return node.value
         elif node.type == 'uminus':  # Handle unary negation
             operand_val = self.eval(node.children[0])
             return -operand_val  # Return the negation of the operand value
@@ -144,13 +155,11 @@ class Snailz(Parser):
             while self.eval(node.children[0]):
                 self.eval(node.children[1])
                 self.eval(node.children[2])
-        
         elif node.type == 'SNAIL':
             snail = 1000
             while(snail>0):
                 print("SNAILZ")
                 snail = snail-1
-            
         elif node.type == 'IF':
             condition_result = self.eval(node.children[0])  # Evaluates the condition
             # print("Condition Result:", "True" if condition_result else "False")
@@ -398,6 +407,11 @@ class Snailz(Parser):
     def p_statement_print(self, p):
         'statement : PRINT LPAREN expression RPAREN'
         p[0] = ASTNode('print', children=[p[3]])
+    
+    def p_expression_boolean(self, p):
+        '''expression : TRUE
+                    | FALSE'''
+        p[0] = ASTNode('boolean', value=p[1])
 
 
     def p_error(self, p):
