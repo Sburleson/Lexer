@@ -54,7 +54,7 @@ class Snailz(Parser):
     tokens =  ('TRUE', 'FALSE', 'PRINT','PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
            'NAME', 'NUMBER', 'AND', 'OR', 'GR8R', 'LBRA', 'RBRA', 'COM',
             'COMPEQU', 'EQUALS', 'LES', 'MOD', 'SORT',
-           'NOT', 'EXP','IF','WHILE','FOR','ELSE','SNAIL')
+           'NOT', 'EXP','IF','WHILE','FOR','ELSE','SNAIL','STRING')
 
     t_PLUS = r'\+'
     t_MINUS = r'-'
@@ -81,6 +81,8 @@ class Snailz(Parser):
     t_FOR = r'for'
     t_ELSE = r'else'
     t_SNAIL = r'snail'
+    t_STRING = r'"([^"\\]|\\.)*"'
+
     def t_PRINT(self, t):
         r'ThereneverisaslowerpaceThansnailscompetinginarace'
         return t
@@ -104,6 +106,7 @@ class Snailz(Parser):
         if t.value in ('if', 'else', 'while', 'for','snail', 'ThereneverisaslowerpaceThansnailscompetinginarace'):  # Exclude 'if' and 'else' from being recognized as variable names
             t.type = t.value.upper()   # Convert keyword to uppercase to match token type
         return t
+    
 
     def t_NUMBER(self, t):
         r'\d+'
@@ -173,6 +176,11 @@ class Snailz(Parser):
             variable_name = node.children[0].value
             expression_result = self.eval(node.children[1])
             self.symbol_table[variable_name] = expression_result
+        elif node.type == 'string':
+            variable_name = node.children[0]
+            print("STRING",node.children[1])
+            self.symbol_table[variable_name] = node.children[1]
+
         elif node.type == 'statement_expr':
             # Evaluate the expression and return the result
             return self.eval(node.children[0])
@@ -259,6 +267,10 @@ class Snailz(Parser):
         # Store the variable and its value in the symbol table
         # a ###### self.symbol_table[p[1]] = self.eval(p[3])
         p[0] = ASTNode('assignment', [ASTNode('variable', value=p[1]), p[3]])
+    
+    def p_string(self,p):
+        'statement : NAME EQUALS STRING'
+        p[0] = ASTNode('string', children=[p[1],p[3]])
 
     def p_statement_expr(self, p):
         '''statement : expression'''
